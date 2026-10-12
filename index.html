@@ -1949,7 +1949,7 @@ a.cq-a:hover { border-color: var(--accent); }
     q('m-xy').innerHTML = s.lat.toFixed(2) + '°N<br>' + s.lon.toFixed(2) + '°E';
     q('m-now').hidden = !s.now;
     LMK.forEach(function (l) { l.g.classList.toggle('act', l.c === s.c); });
-    if (fill) fill.style.transform = 'scaleX(' + (i / (n - 1)) + ')';
+    if (fill) { fill.style.transition = ''; fill.style.transform = 'scaleX(' + (i / (n - 1)) + ')'; }
     steps.forEach(function (b, j) {
       b.classList.toggle('done', j < i);
       b.classList.toggle('cur', j === i);
@@ -1969,6 +1969,7 @@ a.cq-a:hover { border-color: var(--accent); }
       var c = b.querySelector('.nx circle');
       if (c) { c.style.transition = 'none'; c.style.strokeDasharray = NXC + ' ' + NXC; c.style.strokeDashoffset = String(NXC); }
     });
+    if (fill) { fill.style.transition = ''; fill.style.transform = 'scaleX(' + (cur / (n - 1)) + ')'; }
   }
   function schedule() {
     clearTimeout(timer); barReset();
@@ -1977,6 +1978,11 @@ a.cq-a:hover { border-color: var(--accent); }
     var nb = btns[S[(cur + 1) % n].c], c = nb.querySelector('.nx circle');
     nb.classList.add('next');
     if (c) { void c.getBoundingClientRect(); c.style.transition = 'stroke-dashoffset ' + ms + 'ms linear'; c.style.strokeDashoffset = '0'; }
+    /* the progress line under the map fills toward the next step in step with the ring */
+    if (fill && cur < n - 1) {
+      fill.style.transition = 'none'; fill.style.transform = 'scaleX(' + (cur / (n - 1)) + ')'; void fill.offsetWidth;
+      fill.style.transition = 'transform ' + ms + 'ms linear'; fill.style.transform = 'scaleX(' + ((cur + 1) / (n - 1)) + ')';
+    }
     timer = setTimeout(function () { go(cur + 1); }, ms);
   }
   function go(i) {
