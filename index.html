@@ -203,7 +203,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .jtrack i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); transform-origin: left center; transform: scaleX(0); transition: transform .9s cubic-bezier(.45,0,.25,1); }
 .jstep { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 15px 4px 12px; background: none; border: 0; color: var(--muted); cursor: pointer; font: inherit; }
 .jstep .sd { position: relative; z-index: 1; width: 14px; height: 14px; margin-bottom: 6px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); transition: background-color .3s, border-color .3s, box-shadow .3s; }
-.jstep b { font: 600 13px/1.1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; }
+.jstep b { font: 600 14px/1.1 var(--font-body); letter-spacing: 0.01em; }
 .jstep span:last-child { font: 400 11px/1.2 var(--font-mono); white-space: nowrap; }
 .jstep b { white-space: nowrap; }
 .jstep em { font-style: normal; }
@@ -236,7 +236,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
   .stn .nx { left: -4px; top: -4px; width: 30px; height: 30px; }
   .lbl { display: none; }
   .jhead { padding: 8px 10px 8px 12px; }
-  .jstep b { font-size: 10px; letter-spacing: 0.02em; }
+  .jstep b { font-size: 11.5px; letter-spacing: 0; }
   .jstep em { display: none; }
   .jstep { padding: 13px 2px 10px; }
   .jtrack { top: 20px; }
@@ -1068,7 +1068,7 @@ a.cc-row:hover { transform: translateX(3px); }
       <div class="fd-main">
         <div class="fd-head"><span class="lab-k">Interactive &middot; 4D sequence</span><button class="cp" type="button" id="fdplay">Replay</button></div>
         <div class="fd-rows">
-          <div class="fd-row"><span class="fd-l"><i class="c0"></i>UNITED &middot; Mansoura</span><div class="fd-track"><i class="fd-bar c0" style="left:0.00%;width:26.32%"></i></div></div>
+          <div class="fd-row"><span class="fd-l"><i class="c0"></i>United &middot; Mansoura</span><div class="fd-track"><i class="fd-bar c0" style="left:0.00%;width:26.32%"></i></div></div>
           <div class="fd-row"><span class="fd-l"><i class="c1"></i>El Soadaa &middot; Cairo</span><div class="fd-track"><i class="fd-bar c1" style="left:26.32%;width:29.82%"></i></div></div>
           <div class="fd-row"><span class="fd-l"><i class="c2"></i>Al Bawani &middot; Riyadh</span><div class="fd-track"><i class="fd-bar c2" style="left:56.14%;width:29.82%"></i></div></div>
           <div class="fd-row"><span class="fd-l"><i class="c3"></i>Al Kharafi &middot; Dubai</span><div class="fd-track"><i class="fd-bar c3 now" style="left:85.96%;width:14.04%"></i></div></div>
@@ -1117,7 +1117,7 @@ a.cc-row:hover { transform: translateX(3px); }
 <article class="job">
 <div class="jw"><span class="jd">Jan 2022 to Apr 2023</span><span class="jl">Mansoura, Egypt</span></div>
 <div class="jb">
-<h3>Technical Office Bridge Engineer<span class="co">UNITED Contracting</span></h3>
+<h3>Technical Office Bridge Engineer<span class="co">United Contracting</span></h3>
 <p class="js">Technical office for the Mansoura–Cairo Road project: bridge shop drawings, quantities and BOQ.</p>
 <ul class="chips" aria-label="Software"><li>AutoCAD</li><li>AutoCAD Structural Detailing</li><li>BOQ</li></ul>
 <details class="more"><summary><span class="sm">More +</span><span class="sl">Less &minus;</span></summary>
@@ -1406,7 +1406,7 @@ a.cc-row:hover { transform: translateX(3px); }
     });
 
     /* company brackets on the right */
-    var names = [['UNITED', '2022–23', 0, 2, 0], ['El Soadaa', '2023–24', 2, 6, 1], ['Al Bawani', '2024–26', 6, 10, 2], ['Al Kharafi', '2026–now', 10, 12, 3]], brks = [];
+    var names = [['United', '2022–23', 0, 2, 0], ['El Soadaa', '2023–24', 2, 6, 1], ['Al Bawani', '2024–26', 6, 10, 2], ['Al Kharafi', '2026–now', 10, 12, 3]], brks = [];
     names.forEach(function (nm, i) {
       var g = mk('g', { 'class': 'fl f' + nm[4] }, sv);
       var a = P(X1, Y0, nm[2] * H + 0.04), b = P(X1, Y0, nm[3] * H - 0.02), x = +a[0] + 12;
@@ -1718,7 +1718,7 @@ a.cc-row:hover { transform: translateX(3px); }
   ];
   var S = [
     { c: 0, name: 'Graduated', yr: 'Jan 2022', when: 'Jan 2022', role: 'Graduated in Civil Engineering', org: 'Delta Higher Institute for Engineering and Technology' },
-    { c: 0, name: 'UNITED', yr: '2022', when: 'Jan 2022 to Apr 2023', role: 'Technical Office Bridge Engineer', org: 'UNITED Contracting' },
+    { c: 0, name: 'United', yr: '2022', when: 'Jan 2022 to Apr 2023', role: 'Technical Office Bridge Engineer', org: 'United Contracting' },
     { c: 1, name: 'El Soadaa', yr: '2023', when: 'Apr 2023 to Sep 2024', role: 'Structural and Bridge BIM Engineer', org: 'El Soadaa Group' },
     { c: 2, name: 'Al Bawani', yr: '2024', when: 'Sep 2024 to Feb 2026', role: 'Mid Level Structural BIM Engineer', org: 'Al Bawani' },
     { c: 3, name: 'Al Kharafi', yr: '2026', when: 'Feb 2026 to now', role: 'BIM Coordinator', org: 'Al Kharafi', now: true }
