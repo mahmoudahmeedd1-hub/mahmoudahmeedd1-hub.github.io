@@ -1957,7 +1957,7 @@ a.cq-a:hover { border-color: var(--accent); }
     var p = prog.getPointAtLength(Math.max(0, Math.min(total, len)));
     mk.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')');
   }
-  function showCard(i) {
+  function fillText(i) {
     var s = S[i];
     q('m-when').textContent = s.when;
     q('m-place').textContent = s.city + ', ' + s.country;
@@ -1966,6 +1966,18 @@ a.cq-a:hover { border-color: var(--accent); }
     q('m-note').textContent = s.note || ''; q('m-note').hidden = !s.note;
     q('m-xy').innerHTML = s.lat.toFixed(2) + '°N<br>' + s.lon.toFixed(2) + '°E';
     q('m-now').hidden = !s.now;
+  }
+  /* keep the details box at the height of the tallest step so nothing jumps when the route loops */
+  function fitCard() {
+    card.style.minHeight = '';
+    var h = 0;
+    for (var k = 0; k < n; k++) { fillText(k); h = Math.max(h, card.offsetHeight); }
+    card.style.minHeight = h + 'px';
+    fillText(cur);
+  }
+  function showCard(i) {
+    var s = S[i];
+    fillText(i);
     LMK.forEach(function (l) { l.g.classList.toggle('act', l.c === s.c); });
     if (fill) { fill.style.transition = ''; fill.style.transform = 'scaleX(' + (i / (n - 1)) + ')'; }
     steps.forEach(function (b, j) {
@@ -2014,9 +2026,21 @@ a.cq-a:hover { border-color: var(--accent); }
   function go(i) {
     i = (i + n) % n;
     clearTimeout(timer); cancelAnimationFrame(raf); barReset();
+    prog.style.opacity = mk.style.opacity = '1';
     var from = curLen, to = L[i];
     cur = i; showCard(i);
     if (reduce || Math.abs(to - from) < 1) { setP(to); schedule(); return; }
+    if (i === 0 && from > 0) {
+      prog.style.transition = mk.style.transition = 'opacity .35s ease';
+      prog.style.opacity = mk.style.opacity = '0';
+      raf = 0;
+      timer = setTimeout(function () {
+        setP(0);
+        prog.style.opacity = mk.style.opacity = '1';
+        timer = setTimeout(schedule, 350);
+      }, 350);
+      return;
+    }
     var dur = to < from ? 900 : Math.min(1400, 450 + (to - from) * 1.8), t0 = performance.now();
     (function step(now) {
       var u = Math.min(1, (now - t0) / dur);
@@ -2031,7 +2055,7 @@ a.cq-a:hover { border-color: var(--accent); }
     playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
     playBtn.setAttribute('aria-label', playing ? 'Pause the route' : 'Play the route');
   }
-  function stopPlay() { playing = false; syncPlay(); clearTimeout(timer); barReset(); }
+  function stopPlay() { playing = false; syncPlay(); clearTimeout(timer); barReset(); prog.style.opacity = mk.style.opacity = '1'; }
   if (playBtn) playBtn.addEventListener('click', function () {
     playing = !playing; syncPlay();
     if (playing) go(cur === n - 1 ? 0 : cur + 1); else { clearTimeout(timer); barReset(); }
@@ -2041,6 +2065,8 @@ a.cq-a:hover { border-color: var(--accent); }
     new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) schedule(); else clearTimeout(timer); }).observe(svg);
   }
   syncPlay();
+  fitCard(); window.addEventListener('resize', fitCard);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCard);
   if (reduce) { cur = n - 1; setP(L[n - 1]); showCard(n - 1); }
   else { setP(0); showCard(0); schedule(); }
 })();
