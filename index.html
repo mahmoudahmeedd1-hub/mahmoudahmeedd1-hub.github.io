@@ -1960,30 +1960,35 @@ a.cq-a:hover { border-color: var(--accent); }
   function wrap() { if (!setW) return; if (view.scrollLeft < setW * 0.5) view.scrollLeft += setW; else if (view.scrollLeft > setW * 1.5) view.scrollLeft -= setW; }
   measure(); view.scrollLeft = setW;
   window.addEventListener('resize', function () { var r = setW ? view.scrollLeft / setW : 1; measure(); view.scrollLeft = setW * r; });
-  var hold = 0, last = 0, visible = false, pos = view.scrollLeft;
-  function pause(ms) { hold = performance.now() + (ms || 2500); }
+  var last = 0, visible = false, pos = view.scrollLeft, touching = false, touchEnd = 0, jump = null;
+  function ease(u) { return 1 - Math.pow(1 - u, 3); }
   function tick(t) {
     var dt = last ? Math.min(64, t - last) : 16; last = t;
-    if (!reduce && visible && !document.hidden && t > hold && !dragging) {
-      pos -= dt * 0.035; view.scrollLeft = pos;
-      if (Math.abs(view.scrollLeft - pos) > 2) pos = view.scrollLeft;
-    } else pos = view.scrollLeft;
+    var userBusy = dragging || touching || t - touchEnd < 250;
+    if (!userBusy) {
+      if (Math.abs(view.scrollLeft - pos) > 2) pos = view.scrollLeft; /* wheel or keyboard moved it */
+      if (!reduce && visible && !document.hidden) pos -= dt * 0.035; /* always keeps moving left to right */
+      if (jump) {
+        var u = Math.min(1, (t - jump.t0) / jump.d), e = ease(u);
+        pos += jump.by * (e - jump.e); jump.e = e;
+        if (u >= 1) jump = null;
+      }
+      view.scrollLeft = pos;
+    }
     wrap(); pos = view.scrollLeft;
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
   if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(view); else visible = true;
-  view.addEventListener('mouseenter', function () { pause(1e9); });
-  view.addEventListener('mouseleave', function () { pause(800); });
-  view.addEventListener('focusin', function () { pause(1e9); });
-  view.addEventListener('focusout', function () { pause(800); });
-  ['wheel', 'touchstart', 'touchmove'].forEach(function (ev) { view.addEventListener(ev, function () { pause(3000); }, { passive: true }); });
-  view.addEventListener('scroll', function () { if (performance.now() < hold || dragging) wrap(); }, { passive: true });
+  view.addEventListener('touchstart', function () { touching = true; jump = null; }, { passive: true });
+  view.addEventListener('touchend', function () { touching = false; touchEnd = performance.now(); }, { passive: true });
+  view.addEventListener('touchcancel', function () { touching = false; touchEnd = performance.now(); }, { passive: true });
+  view.addEventListener('scroll', function () { if (touching || dragging) { touchEnd = performance.now(); wrap(); } }, { passive: true });
   function step(dir) {
-    pause(3500);
     var card = tr.children[0].getBoundingClientRect().width + 14;
     var by = Math.max(card, Math.floor(view.clientWidth / card) * card) * dir;
-    wrap(); view.scrollBy({ left: by, behavior: reduce ? 'auto' : 'smooth' });
+    if (jump) { pos += jump.by * (1 - jump.e); }
+    jump = { by: by, t0: performance.now(), d: reduce ? 1 : 520, e: 0 };
   }
   document.getElementById('cqprev').addEventListener('click', function () { step(-1); });
   document.getElementById('cqnext').addEventListener('click', function () { step(1); });
@@ -1992,14 +1997,14 @@ a.cq-a:hover { border-color: var(--accent); }
   var dragging = false, sx = 0, sl = 0, moved = 0;
   view.addEventListener('pointerdown', function (e) {
     if (e.pointerType !== 'mouse' || e.button !== 0) return;
-    dragging = true; moved = 0; sx = e.clientX; sl = view.scrollLeft; view.classList.add('drag'); pause(1e9);
+    dragging = true; jump = null; moved = 0; sx = e.clientX; sl = view.scrollLeft; view.classList.add('drag');
   });
   window.addEventListener('pointermove', function (e) {
     if (!dragging) return;
     var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx)); view.scrollLeft = sl - dx;
     if (setW && view.scrollLeft < setW * 0.5) { view.scrollLeft += setW; sl += setW; } else if (setW && view.scrollLeft > setW * 1.5) { view.scrollLeft -= setW; sl -= setW; }
   });
-  window.addEventListener('pointerup', function () { if (!dragging) return; dragging = false; view.classList.remove('drag'); pause(view.matches(':hover') ? 1e9 : 2500); });
+  window.addEventListener('pointerup', function () { if (!dragging) return; dragging = false; view.classList.remove('drag'); pos = view.scrollLeft; });
   view.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
 })();
 /* ---- profile typewriter ---- */
