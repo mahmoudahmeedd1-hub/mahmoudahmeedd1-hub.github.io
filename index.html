@@ -75,7 +75,7 @@ a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 h1, h2, h3, p, ul, ol, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
-.wrap { max-width: 1120px; margin-inline: auto; }
+.wrap { max-width: 1200px; margin-inline: auto; }
 
 /* ---------- header ---------- */
 .bar {
@@ -83,7 +83,7 @@ ul, ol { padding: 0; list-style: none; }
   margin-inline: calc(-1 * var(--gut)); padding-inline: var(--gut);
   background: var(--bg); border-bottom: 1px solid var(--line);
 }
-.bar .wrap { max-width: 1280px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; min-height: 64px; padding-block: 10px; }
+.bar .wrap { max-width: 1200px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; min-height: 64px; padding-block: 10px; }
 .brand-wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-right: auto; min-width: 0; }
 .brand { font: 700 23px/1 var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none; white-space: nowrap; }
 .creds { display: inline-flex; align-items: center; gap: 8px; font: 600 12px/1 var(--font-mono); letter-spacing: 0.06em; color: var(--accent); white-space: nowrap; }
@@ -97,10 +97,10 @@ ul, ol { padding: 0; list-style: none; }
 .tbtn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .tbtn .sun, .tbtn.to-light .moon { display: none; }
 .tbtn.to-light .sun { display: block; }
-@media (min-width: 1340px) {
+@media (min-width: 1260px) {
   .bar .wrap { flex-wrap: nowrap; justify-content: space-between; }
   .brand-wrap { flex: none; flex-wrap: nowrap; margin-right: 0; }
-  .nav { order: 0; width: auto; gap: 18px; margin-inline: auto 8px; }
+  .nav { order: 0; width: auto; gap: 16px; margin-inline: auto 8px; }
 }
 @media (max-width: 640px) {
   .bar .wrap { gap: 10px 12px; }
@@ -1190,7 +1190,8 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
         Object.keys(links).forEach(function (k) { links[k].classList.toggle('on', k === e.target.id); });
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
-    Object.keys(links).forEach(function (k) { var s = document.getElementById(k); if (s) spy.observe(s); });
+    /* every section is watched, so a section without a menu item clears the highlight */
+    document.querySelectorAll('main section, main .hero').forEach(function (s) { spy.observe(s); });
   }
 
   /* ---- experience track fills with scroll ---- */
