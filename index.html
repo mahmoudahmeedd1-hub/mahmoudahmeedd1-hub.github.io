@@ -1901,7 +1901,7 @@ a.cc-row:hover { transform: translateX(3px); }
   var done = false;
   function run() {
     if (done) return; done = true;
-    var dur = 4200, t0 = performance.now(), shown = 0, n = chars.length, last = null;
+    var dur = 9000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
     (function step(now) {
       var k = Math.min(n, Math.ceil((now - t0) / dur * n));
       for (; shown < k; shown++) chars[shown].classList.add('on');
@@ -1911,7 +1911,7 @@ a.cc-row:hover { transform: translateX(3px); }
       else setTimeout(function () { last.classList.remove('cur'); }, 1600);
     })(t0);
   }
-  var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.35 });
+  var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.15 });
   io.observe(box);
 })();
 
