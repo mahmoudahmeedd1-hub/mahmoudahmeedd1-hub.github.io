@@ -308,8 +308,11 @@ section { padding-block: clamp(56px, 8vw, 96px); scroll-margin-top: 120px; }
 .tool .fig { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font: 500 13px/1.5 var(--font-mono); color: var(--fg); }
 .tool .fig b { color: var(--accent); font-weight: 500; }
 .tools3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.tool-ic { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 4px; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
-.tool-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tool-ic { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 8px; transition: background-color .25s, box-shadow .25s; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.tool-ic svg, .sec-ic svg { width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+.i-m { stroke-width: 2; }
+.i-d { stroke-width: 1.4; opacity: 0.6; }
+.tool:hover .tool-ic, .sector:hover .sec-ic { background: color-mix(in srgb, var(--accent) 22%, transparent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent); }
 @media (max-width: 900px) { .tools3 { grid-template-columns: minmax(0, 1fr); } }
 .tool a.more { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font: 500 13px/1.5 var(--font-mono); text-decoration: none; }
 .after { margin-top: 28px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; color: var(--muted); }
@@ -448,8 +451,8 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
 .sector { min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 22px; border: 1px solid var(--line); background: var(--surface); border-radius: 2px; scroll-margin-top: 130px; transition: border-color .3s, box-shadow .3s; }
 .sector:target { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
 .sec-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.sec-ic { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 2px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
-.sec-ic svg, .f-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.sec-ic { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 8px; transition: background-color .25s, box-shadow .25s; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+.f-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .sec-n { font: 500 11px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .sector h3 { font: 600 26px/1.1 var(--font-display); letter-spacing: 0.01em; }
 .sec-pj { display: grid; gap: 10px; }
@@ -1078,18 +1081,18 @@ a.cq-a:hover { border-color: var(--accent); }
       <div class="lab-head"><span class="lab-k">Scripts &amp; dashboards</span></div>
     <div class="tools tools3">
       <article class="tool">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6v6H4z M14 13h6v6h-6z M10 8h4v8 M14 16h-4"></path></svg></span>
+        <span class="tool-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M4 8h12v9H4z M32 5h12v9H32z M18 29h12v9H18z M32 33h12v9H32z"></path><path class="i-d" d="M16 12.5C25 12.5 23 9.5 32 9.5 M16 12.5C26 12.5 9 33.5 18 33.5 M30 33.5C32 33.5 30 37.5 32 37.5 M16 12.5a1.4 1.4 0 1 0 0 .1 M32 9.5a1.4 1.4 0 1 0 0 .1 M18 33.5a1.4 1.4 0 1 0 0 .1 M30 33.5a1.4 1.4 0 1 0 0 .1 M32 37.5a1.4 1.4 0 1 0 0 .1"></path></svg></span>
         <h3>Dynamo Library</h3>
         <p>100+ Dynamo scripts for Revit and Civil 3D that automate everyday modeling and coordination tasks.</p>
         <a class="more" href="https://www.linkedin.com/posts/mahmoudbimstr_in-the-fast-paced-world-of-design-and-construction-activity-7361296742341918720-6Vfx?utm_source=share&amp;utm_medium=member_ios&amp;rcm=ACoAACsoURIBP5aqE_Xv6lDEe4COeMzOdLIae7g" target="_blank" rel="noopener noreferrer">See the Dynamo scripts &nearr;</a>
       </article>
       <article class="tool">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-5 4 5 4 M15 8l5 4-5 4 M13.5 5l-3 14"></path></svg></span>
+        <span class="tool-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M21.3 4.5h5.4l1 5.1a14.7 14.7 0 0 1 3.7 1.6l4.4-2.9 3.8 3.8-2.9 4.4a14.7 14.7 0 0 1 1.6 3.7l5.1 1v5.4l-5.1 1a14.7 14.7 0 0 1-1.6 3.7l2.9 4.4-3.8 3.8-4.4-2.9a14.7 14.7 0 0 1-3.7 1.6l-1 5.1h-5.4l-1-5.1a14.7 14.7 0 0 1-3.7-1.6l-4.4 2.9-3.8-3.8 2.9-4.4a14.7 14.7 0 0 1-1.6-3.7l-5.1-1v-5.4l5.1-1a14.7 14.7 0 0 1 1.6-3.7l-2.9-4.4 3.8-3.8 4.4 2.9a14.7 14.7 0 0 1 3.7-1.6z"></path><path class="i-d" d="M20 20l-4 4 4 4 M28 20l4 4-4 4 M25.6 17.5l-3.2 13"></path></svg></span>
         <h3>Automation</h3>
         <p>Python and C# tools that streamline workflows, manage files and run scheduled tasks.</p>
       </article>
       <article class="tool">
-        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10 M10 20V4 M16 20v-7 M22 20H2"></path></svg></span>
+        <span class="tool-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M4 6h40v28H4z M18 42h12 M24 34v8"></path><path class="i-d" d="M10 28v-5 M15 28v-9 M20 28v-6 M25 25l4.5-5 4 3 5.5-8 M38 15h2v2"></path></svg></span>
         <h3>Analysis</h3>
         <p>All BIM software integrated with Power BI and other platforms for live project dashboards.</p>
       </article>
@@ -1106,15 +1109,15 @@ a.cq-a:hover { border-color: var(--accent); }
   <div class="wrap">
     <div class="sh"><h2>Key Projects</h2></div>
     <div class="sectors">
-<article class="sector" id="sec-highrise"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21V4h8v17 M5 21h14 M11 7h2 M11 10h2 M11 13h2 M11 16h2 M12 4V2"></path></svg></span><span class="sec-n">1 project</span></div><h3>High-Rise Buildings</h3><ul class="sec-pj"><li><b>Aykon City 3, Safa 2</b><span>Dubai, UAE</span></li></ul></article>
-<article class="sector" id="sec-villas"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7 M5 9.5V20h14V9.5 M10 20v-5h4v5"></path></svg></span><span class="sec-n">1 project</span></div><h3>Villas &amp; Compounds</h3><ul class="sec-pj"><li><b>The Wilds</b><span>Dubai, UAE</span></li></ul></article>
-<article class="sector" id="sec-residential"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14 M3 21h18 M8 10h2 M14 10h2 M8 14h2 M14 14h2 M8 18h2 M14 18h2"></path></svg></span><span class="sec-n">1 project</span></div><h3>Residential</h3><ul class="sec-pj"><li><b>Laheq Island L01, The Ring Residential Condos</b><span>Saudi Arabia</span></li></ul></article>
-<article class="sector" id="sec-industrial"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V10l5 3V10l5 3V10l5 3V5h3v16z M3 21h18"></path></svg></span><span class="sec-n">1 project</span></div><h3>Industrial</h3><ul class="sec-pj"><li><b>Lucid Motors Factory</b><span>KAEC, Saudi Arabia</span></li></ul></article>
-<article class="sector" id="sec-entertainment"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z M12 3v18 M3 12h18 M5.6 5.6l12.8 12.8 M18.4 5.6L5.6 18.4"></path></svg></span><span class="sec-n">3 projects</span></div><h3>Entertainment</h3><ul class="sec-pj"><li><b>Seven Madinah Entertainment Complex</b><span>Madinah, Saudi Arabia</span></li><li><b>Qiddiya Entertainment Center, The Public Golf Course</b><span>Saudi Arabia</span></li><li><b>El Nahda Entertainment Complex, Exit 15</b><span>Riyadh, Saudi Arabia</span></li></ul></article>
-<article class="sector" id="sec-bridges"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 17h20 M2 13h20 M4 13c2-5 14-5 16 0 M7 13v4 M12 9.5V17 M17 13v4"></path></svg></span><span class="sec-n">2 projects</span></div><h3>Bridges</h3><ul class="sec-pj"><li><b>Kilo 21 Bridge</b><span>Egypt</span></li><li><b>El Bostan Bridge</b><span>Egypt</span></li></ul></article>
-<article class="sector" id="sec-rail"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M5 10h14 M8.5 14h.01 M15.5 14h.01 M8 17l-2 4 M16 17l2 4"></path></svg></span><span class="sec-n">2 projects</span></div><h3>Rail &amp; Metro</h3><ul class="sec-pj"><li><b>Riyadh Metro, Line 7</b><span>Riyadh, Saudi Arabia</span></li><li><b>Electric Express Train, Quos Station</b><span>Egypt</span></li></ul></article>
-<article class="sector" id="sec-hospitality"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20l6-10 4 6 3-4 5 8z M3 20h18 M15 6a2 2 0 1 0 0 .1"></path></svg></span><span class="sec-n">1 project</span></div><h3>Hospitality &amp; Tourism</h3><ul class="sec-pj"><li><b>NEOM Trojena Ski Village</b><span>NEOM, Saudi Arabia</span></li></ul></article>
-<article class="sector" id="sec-media"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4z M8 3l4 4 4-4 M8 14h.01 M12 14h4"></path></svg></span><span class="sec-n">1 project</span></div><h3>Media &amp; Commercial</h3><ul class="sec-pj"><li><b>Diriyah MBC Plot, Stage 01 Media Center</b><span>Riyadh, Saudi Arabia</span></li></ul></article>
+<article class="sector" id="sec-highrise"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M13 44V18h7V10h8v8h7v26 M24 10V4 M8 44h32"></path><path class="i-d" d="M17 23h3 M28 23h3 M17 29h3 M28 29h3 M17 35h3 M28 35h3 M22.5 14h3"></path></svg></span><span class="sec-n">1 project</span></div><h3>High-Rise Buildings</h3><ul class="sec-pj"><li><b>Aykon City 3, Safa 2</b><span>Dubai, UAE</span></li></ul></article>
+<article class="sector" id="sec-villas"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M5 24L22 11l17 13 M9 21v17h26V21 M19 38v-8h6v8 M3 38h38"></path><path class="i-d" d="M13 25h3v3h-3z M28 25h3v3h-3z M6 43c2.5-1.6 5-1.6 7.5 0s5 1.6 7.5 0 5-1.6 7.5 0 5 1.6 7.5 0 4-1.6 6 0"></path></svg></span><span class="sec-n">1 project</span></div><h3>Villas &amp; Compounds</h3><ul class="sec-pj"><li><b>The Wilds</b><span>Dubai, UAE</span></li></ul></article>
+<article class="sector" id="sec-residential"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M10 44V7h28v37 M5 44h38 M21 44v-7h6v7"></path><path class="i-d" d="M15 12h5v4h-5z M28 12h5v4h-5z M15 20h5v4h-5z M28 20h5v4h-5z M15 28h5v4h-5z M28 28h5v4h-5z M13 16.5h9 M26 16.5h9 M13 24.5h9 M26 24.5h9 M13 32.5h9 M26 32.5h9"></path></svg></span><span class="sec-n">1 project</span></div><h3>Residential</h3><ul class="sec-pj"><li><b>Laheq Island L01, The Ring Residential Condos</b><span>Saudi Arabia</span></li></ul></article>
+<article class="sector" id="sec-industrial"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M4 44V26l10 6v-6l10 6v-6l10 6V12h6v32z M2 44h44"></path><path class="i-d" d="M9 38h5 M19 38h5 M27 38h4 M36 8c0-2.2 1.6-3.4 3.6-3.4 1.4 0 2.2-1 2.2-2.2 M8 26v-4h4v6"></path></svg></span><span class="sec-n">1 project</span></div><h3>Industrial</h3><ul class="sec-pj"><li><b>Lucid Motors Factory</b><span>KAEC, Saudi Arabia</span></li></ul></article>
+<article class="sector" id="sec-entertainment"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M24 6a14 14 0 1 0 0 28a14 14 0 1 0 0-28z M24 20L15 44 M24 20l9 24 M10 44h28"></path><path class="i-d" d="M24 6v28 M10 20h28 M14.1 10.1l19.8 19.8 M33.9 10.1L14.1 29.9 M24 4.5a1.8 1.8 0 1 0 0 .1 M38 20a1.8 1.8 0 1 0 0 .1 M10 20a1.8 1.8 0 1 0 0 .1 M24 34.5a1.8 1.8 0 1 0 0 .1"></path></svg></span><span class="sec-n">3 projects</span></div><h3>Entertainment</h3><ul class="sec-pj"><li><b>Seven Madinah Entertainment Complex</b><span>Madinah, Saudi Arabia</span></li><li><b>Qiddiya Entertainment Center, The Public Golf Course</b><span>Saudi Arabia</span></li><li><b>El Nahda Entertainment Complex, Exit 15</b><span>Riyadh, Saudi Arabia</span></li></ul></article>
+<article class="sector" id="sec-bridges"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M2 34h44 M2 38h44 M16 38V10 M32 38V10 M9 38v6 M24 38v6 M39 38v6"></path><path class="i-d" d="M16 12L4 34 M16 17L9 34 M16 12L28 34 M16 17L22 34 M32 12L20 34 M32 17L26 34 M32 12L44 34 M32 17L39 34"></path></svg></span><span class="sec-n">2 projects</span></div><h3>Bridges</h3><ul class="sec-pj"><li><b>Kilo 21 Bridge</b><span>Egypt</span></li><li><b>El Bostan Bridge</b><span>Egypt</span></li></ul></article>
+<article class="sector" id="sec-rail"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M14 6h20a4 4 0 0 1 4 4v22a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z M16 36l-4 8 M32 36l4 8 M8 44h32"></path><path class="i-d" d="M15 11h18v9H15z M15 29h3 M30 29h3 M20 3h8 M10 24h28"></path></svg></span><span class="sec-n">2 projects</span></div><h3>Rail &amp; Metro</h3><ul class="sec-pj"><li><b>Riyadh Metro, Line 7</b><span>Riyadh, Saudi Arabia</span></li><li><b>Electric Express Train, Quos Station</b><span>Egypt</span></li></ul></article>
+<article class="sector" id="sec-hospitality"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M2 42l14-22 8 10 6-8 16 20z M2 42h44"></path><path class="i-d" d="M12.6 25.4l3.4 2.2 3-2.4 M27.4 25.6l2.6 1.8 2.8-1.6 M22 42v-6l5-4 5 4v6 M25.5 42v-3.5h3v3.5 M39 9a3 3 0 1 0 0 .1"></path></svg></span><span class="sec-n">1 project</span></div><h3>Hospitality &amp; Tourism</h3><ul class="sec-pj"><li><b>NEOM Trojena Ski Village</b><span>NEOM, Saudi Arabia</span></li></ul></article>
+<article class="sector" id="sec-media"><div class="sec-top"><span class="sec-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="i-m" d="M8 44V22h32v22 M4 44h40 M20 44v-8h8v8"></path><path class="i-d" d="M13 27h6 M29 27h6 M13 32h6 M29 32h6 M27 7a9 9 0 0 0 9 9 M27 7l9 9 M31.5 11.5l3.5-3.5 M33 22v-6.5"></path></svg></span><span class="sec-n">1 project</span></div><h3>Media &amp; Commercial</h3><ul class="sec-pj"><li><b>Diriyah MBC Plot, Stage 01 Media Center</b><span>Riyadh, Saudi Arabia</span></li></ul></article>
     </div>
     <p class="gallery-note">And others.</p>
   </div>
@@ -2126,7 +2129,7 @@ a.cq-a:hover { border-color: var(--accent); }
   var done = false;
   function run() {
     if (done) return; done = true;
-    var dur = 28000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
+    var dur = 22000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
     (function step(now) {
       var k = Math.min(n, Math.ceil((now - t0) / dur * n));
       for (; shown < k; shown++) chars[shown].classList.add('on');
