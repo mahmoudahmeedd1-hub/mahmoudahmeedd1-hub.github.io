@@ -154,7 +154,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .jplay .pl { display: none; fill: currentColor; stroke-width: 1; }
 .jplay[aria-pressed="false"] .ps { display: none; }
 .jplay[aria-pressed="false"] .pl { display: block; }
-.mapart { position: relative; aspect-ratio: 900 / 430; overflow: hidden; background: var(--surface); }
+.mapart { position: relative; aspect-ratio: 855 / 420; overflow: hidden; background: var(--surface); }
 #map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 #map .land { fill: var(--surface); }
 #map .water { fill: var(--water); stroke: var(--coast); stroke-width: 1.3; stroke-linejoin: round; }
@@ -188,14 +188,18 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .stn .nx circle { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; }
 .stn.cur::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 1.8s ease-out infinite; }
 @keyframes ping { from { transform: scale(0.6); opacity: 0.9; } to { transform: scale(1.7); opacity: 0; } }
-.lbl { position: absolute; display: flex; flex-direction: column; gap: 2px; padding: 4px 7px; background: var(--bg); border: 1px solid var(--line); border-radius: 2px; white-space: nowrap; text-align: left; pointer-events: none; }
+.lbl { position: absolute; display: flex; flex-direction: column; gap: 1px; padding: 0; background: none; border: 0; border-radius: 0; text-shadow: 0 0 3px var(--surface), 0 0 3px var(--surface), 0 0 6px var(--surface); white-space: nowrap; text-align: left; pointer-events: none; }
 .lbl b { font: 600 12px/1.1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg); }
 .lbl i { font: 400 10px/1.1 var(--font-mono); font-style: normal; color: var(--muted); }
-.stn.cur .lbl { border-color: var(--accent); }
-.lbl.r { left: 26px; top: 50%; transform: translateY(-50%); }
-.lbl.b { top: 26px; left: 50%; transform: translateX(-50%); }
-.lbl.lb { top: 26px; right: 0; }
-.stn:hover .lbl { border-color: var(--fg); }
+.stn.cur .lbl b { color: var(--accent); }
+.lbl.r { left: 24px; top: 50%; transform: translateY(-50%); }
+.lbl.b { top: 24px; left: 50%; transform: translateX(-50%); align-items: center; }
+.lbl.lb { top: 24px; right: 2px; align-items: flex-end; }
+.stn:hover .lbl b { color: var(--accent); }
+#map .lmk .icon, #map .lmk .lm-b { transition: stroke .3s, fill .3s; }
+#map .lmk.act .icon { stroke: var(--accent); opacity: 1; }
+#map .lmk.act .lm-b { stroke: var(--accent); fill: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+#map .lmk.act .lm-l { stroke: var(--accent); }
 
 /* stepper under the map */
 .jsteps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line); }
@@ -216,14 +220,14 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .jstep:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 
 /* details of the current stop */
-.jcard { display: flex; align-items: flex-start; gap: 16px; min-height: 108px; padding: 14px 18px 16px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--bg)); border-radius: 0 0 4px 4px; }
+.jcard { display: flex; align-items: flex-start; gap: 16px; min-height: 0; padding: 14px 18px 15px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--bg)); border-radius: 0 0 4px 4px; }
 .jc-main { min-width: 0; flex: 1; }
 .jcard.in .jc-main { animation: cardin .45s ease; }
 @keyframes cardin { from { opacity: 0; transform: translateY(6px); } }
 .m-when { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font: 500 11px/1.4 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
 .now { display: inline-block; font: 600 10px/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 6px; background: var(--accent); color: var(--on-accent); border-radius: 2px; vertical-align: middle; }
 .jcard h3 { margin-top: 5px; font: 600 23px/1.08 var(--font-display); letter-spacing: 0.01em; }
-.m-org { margin-top: 3px; font-size: 14px; color: var(--muted); }
+.m-org { margin-top: 5px; font: 500 15px/1.3 var(--font-body); color: var(--fg); opacity: 0.85; }
 .m-note { margin-top: 4px; display: inline-flex; align-items: center; gap: 6px; font: 400 11.5px/1.3 var(--font-mono); color: var(--accent); }
 .m-note::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .m-xy { flex: none; padding-top: 2px; font: 400 11px/1.5 var(--font-mono); color: var(--muted); text-align: right; }
@@ -234,7 +238,10 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
   .stn { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
   .stn .dot { left: 6px; top: 6px; width: 10px; height: 10px; }
   .stn .nx { left: -4px; top: -4px; width: 30px; height: 30px; }
-  .lbl { display: none; }
+  .lbl b { font-size: 9.5px; letter-spacing: 0.04em; }
+  .lbl i { display: none; }
+  .lbl.r { left: 19px; }
+  .lbl.b, .lbl.lb { top: 16px; }
   .jhead { padding: 8px 10px 8px 12px; }
   .jstep b { font-size: 11.5px; letter-spacing: 0; }
   .jstep em { display: none; }
@@ -297,6 +304,10 @@ section { padding-block: clamp(56px, 8vw, 96px); scroll-margin-top: 120px; }
 .tool p { color: var(--muted); font-size: 15px; }
 .tool .fig { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font: 500 13px/1.5 var(--font-mono); color: var(--fg); }
 .tool .fig b { color: var(--accent); font-weight: 500; }
+.tools3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tool-ic { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 4px; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.tool-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 900px) { .tools3 { grid-template-columns: minmax(0, 1fr); } }
 .tool a.more { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font: 500 13px/1.5 var(--font-mono); text-decoration: none; }
 .after { margin-top: 28px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; color: var(--muted); }
 
@@ -746,10 +757,29 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
 .ts-flow li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 8px; font: 600 12px/1 var(--font-mono); border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); }
 .ts-flow li + li::before { content: "\2192"; margin-right: 4px; color: var(--accent); }
 .ts-chips .more-chip { border-style: dashed; color: var(--accent); }
+.ts-desc { display: none; margin: 0; color: var(--muted); }
+.ts-dots { display: flex; justify-content: center; gap: 8px; margin-top: -2px; }
+.ts-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: var(--line); cursor: pointer; transition: width .25s, background-color .25s; }
+.ts-dots button[aria-current="true"] { width: 22px; border-radius: 4px; background: var(--accent); }
+.ts-view.swipe { cursor: grab; }
 @media (max-width: 900px) {
   .tshow { grid-template-columns: minmax(0, 1fr); }
-  .ts-list { grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); overflow-x: auto; padding-bottom: 4px; }
-  .ts-view { height: 460px; }
+  .ts-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ts-view { height: 440px; }
+}
+@media (max-width: 640px) {
+  .ts-list { gap: 8px; }
+  .ts-item { gap: 8px; padding: 10px; align-items: center; }
+  .ts-n { width: 22px; height: 22px; font-size: 11px; }
+  .ts-ic svg { width: 28px; height: 28px; }
+  .ts-tx b { font-size: 15.5px; }
+  .ts-tx span { display: none; }
+  .ts-desc { display: block; font-size: 14.5px; }
+  .ts-view { height: min(52vh, 340px); }
+  .ts-img.fit { height: 100%; width: 100%; object-fit: contain; }
+  .ts-steps { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -2px; padding: 2px; }
+  .ts-steps::-webkit-scrollbar { display: none; }
+  .ts-steps button { flex: none; padding: 7px 10px; font-size: 11px; }
 }
 
 /* ---------- stat cards v2 ---------- */
@@ -869,6 +899,20 @@ a.cq-a:hover { border-color: var(--accent); }
 .cq-tx i em { font-style: normal; color: var(--accent); white-space: nowrap; }
 @media (max-width: 640px) { .cq-hint { display: none; } .cq-i { width: 200px; } .cq-img { height: 136px; } }
 
+/* ---------- value I add ---------- */
+.vals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.val { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 24px 22px 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; transition: border-color .25s, transform .25s; }
+.val::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--accent2), var(--accent)); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+.val:hover { border-color: var(--accent); transform: translateY(-3px); }
+.val:hover::after { transform: scaleX(1); }
+.val-n { position: absolute; top: 16px; right: 18px; font: 500 12px/1 var(--font-mono); letter-spacing: 0.08em; color: var(--muted); }
+.val-ic { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 6%, transparent); }
+.val-ic svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.val b { font: 600 26px/1.05 var(--font-display); letter-spacing: 0.01em; }
+@media (max-width: 900px) { .vals { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+@media (max-width: 640px) { .val { gap: 14px; padding: 18px 16px 20px; } .val-ic { width: 46px; height: 46px; } .val-ic svg { width: 22px; height: 22px; } .val b { font-size: 21px; } }
+@media (prefers-reduced-motion: reduce) { .val, .val::after { transition: none; } }
+
 @media (prefers-reduced-motion: reduce) { .fd-bld .fl { transition: none; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .stn.cur::after { display: none; } .jcard.in .jc-main { animation: none; } .jtrack i { transition: none; } }
 </style>
@@ -918,7 +962,7 @@ a.cq-a:hover { border-color: var(--accent); }
         <button class="jplay" type="button" id="jplay" aria-pressed="true" aria-label="Pause the route"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ps" d="M5 3.5v9M11 3.5v9"></path><path class="pl" d="M5 3l8 5-8 5z"></path></svg></button>
       </div>
       <div class="mapart">
-        <svg id="map" viewBox="100 0 900 430" role="img" aria-labelledby="map-title"><title id="map-title">Career route: Mansoura and Cairo in Egypt, Riyadh in Saudi Arabia, Dubai in the UAE</title></svg>
+        <svg id="map" viewBox="140 8 855 420" role="img" aria-labelledby="map-title"><title id="map-title">Career route: Mansoura and Cairo in Egypt, Riyadh in Saudi Arabia, Dubai in the UAE</title></svg>
         <div class="stations" id="stations"></div>
       </div>
       <div class="jsteps" id="jsteps"><span class="jtrack" aria-hidden="true"><i id="jfill"></i></span></div>
@@ -1029,28 +1073,22 @@ a.cq-a:hover { border-color: var(--accent); }
 
     <div class="tb-block">
       <div class="lab-head"><span class="lab-k">Scripts &amp; dashboards</span></div>
-    <div class="tools">
+    <div class="tools tools3">
       <article class="tool">
-        <span class="tag">Navisworks &middot; Power BI</span>
-        <h3>Clash progress in Power BI</h3>
-        <p>Navisworks clash data linked to interactive 3D models, with clashes tracked by test across reporting dates for live visualization and analysis.</p>
-        <p class="fig">In one report: <b>4,251</b> clashes down to <b>402</b>, <b>90.54%</b> progress.</p>
-      </article>
-      <article class="tool">
-        <span class="tag">Model Checker &middot; Power BI</span>
-        <h3>Model health and drawings dashboards</h3>
-        <p>A model health check workflow feeding an interactive QA/QC dashboard for performance analysis and automated issue tracking, plus a structural drawings dashboard for sheet counts, revisions and zone-based insights.</p>
-      </article>
-      <article class="tool">
-        <span class="tag">Dynamo Player</span>
-        <h3>Dynamo script library</h3>
-        <p>Numbered scripts for daily coordination work: section box at a linked element by ID, auto-resolve join issues and fill coordination data, BOQ parameter population, Excel export and import of parameters, align and match overrides.</p>
+        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6v6H4z M14 13h6v6h-6z M10 8h4v8 M14 16h-4"></path></svg></span>
+        <h3>Dynamo Library</h3>
+        <p>100+ Dynamo scripts for Revit and Civil 3D that automate everyday modeling and coordination tasks.</p>
         <a class="more" href="https://www.linkedin.com/posts/mahmoudbimstr_in-the-fast-paced-world-of-design-and-construction-activity-7361296742341918720-6Vfx?utm_source=share&amp;utm_medium=member_ios&amp;rcm=ACoAACsoURIBP5aqE_Xv6lDEe4COeMzOdLIae7g" target="_blank" rel="noopener noreferrer">See the Dynamo scripts &nearr;</a>
       </article>
       <article class="tool">
-        <span class="tag">Python &middot; C# &middot; Task Scheduler</span>
-        <h3>Python and C# automation</h3>
-        <p>Scripts and APIs that create project folder structures, bulk rename and replace files, refresh Power BI source files and run recurring tasks on a schedule.</p>
+        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-5 4 5 4 M15 8l5 4-5 4 M13.5 5l-3 14"></path></svg></span>
+        <h3>Automation</h3>
+        <p>Python and C# tools that streamline workflows, manage files and run scheduled tasks.</p>
+      </article>
+      <article class="tool">
+        <span class="tool-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10 M10 20V4 M16 20v-7 M22 20H2"></path></svg></span>
+        <h3>Analysis</h3>
+        <p>All BIM software integrated with Power BI and other platforms for live project dashboards.</p>
       </article>
     </div>
     </div>
@@ -1282,6 +1320,18 @@ a.cq-a:hover { border-color: var(--accent); }
         <p class="ed-note">Candidate.</p>
       </li>
     </ol>
+  </div>
+</section>
+
+<section id="value" class="sec-line">
+  <div class="wrap">
+    <div class="sh"><h2>Value I Add</h2></div>
+    <ul class="vals">
+      <li class="val"><span class="val-n">01</span><span class="val-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6 M10 21h4 M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"></path></svg></span><b>Solutions</b></li>
+      <li class="val"><span class="val-n">02</span><span class="val-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-6 M10 20V9 M15 20v-8 M20 20V5 M3 20h18"></path></svg></span><b>Analysis</b></li>
+      <li class="val"><span class="val-n">03</span><span class="val-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M19.4 13.5l1.6 1.2-1.8 3.1-1.9-.7a7.6 7.6 0 0 1-2 1.2l-.3 2H11l-.3-2a7.6 7.6 0 0 1-2-1.2l-1.9.7-1.8-3.1 1.6-1.2a7.7 7.7 0 0 1 0-2.4L5 10.3l1.8-3.1 1.9.7a7.6 7.6 0 0 1 2-1.2l.3-2h3.6l.3 2a7.6 7.6 0 0 1 2 1.2l1.9-.7 1.8 3.1-1.6 1.2a7.7 7.7 0 0 1 0 2.4z"></path></svg></span><b>Automation</b></li>
+      <li class="val"><span class="val-n">04</span><span class="val-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6 M16 4.3a3.5 3.5 0 0 1 0 6.4 M17.5 14.3c2.4.6 4 2.7 4 5.7"></path></svg></span><b>Team Player</b></li>
+    </ul>
   </div>
 </section>
 
@@ -1665,19 +1715,42 @@ a.cq-a:hover { border-color: var(--accent); }
         if (k === 'ArrowUp' || k === 'ArrowLeft') { e.preventDefault(); pick((i + n - 1) % n, true); }
       });
     });
-    panes.forEach(function (p) {
+    panes.forEach(function (p, pi) {
+      /* short tool description, shown above the screen on phones */
+      var dsc = tabs[pi] && tabs[pi].querySelector('.ts-tx span');
+      if (dsc) { var d = document.createElement('p'); d.className = 'ts-desc'; d.textContent = dsc.textContent; p.insertBefore(d, p.firstChild); }
       var steps = Array.prototype.slice.call(p.querySelectorAll('.ts-steps button'));
       if (!steps.length) return;
       var imgs = Array.prototype.slice.call(p.querySelectorAll('.ts-view .ts-img'));
-      var view = p.querySelector('.ts-view'), cap = p.querySelector('.ts-cap');
-      steps.forEach(function (b, i) {
-        b.addEventListener('click', function () {
-          steps.forEach(function (c, j) { c.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
-          imgs.forEach(function (im, j) { im.hidden = j !== i; });
-          if (view) view.scrollTop = 0;
-          if (cap) cap.textContent = b.getAttribute('data-cap');
-        });
-      });
+      var view = p.querySelector('.ts-view'), cap = p.querySelector('.ts-cap'), cur = 0;
+      var dots = document.createElement('div'); dots.className = 'ts-dots'; dots.setAttribute('aria-hidden', 'true');
+      var dbs = steps.map(function (b, i) { var x = document.createElement('button'); x.type = 'button'; x.tabIndex = -1; x.addEventListener('click', function () { go(i); }); dots.appendChild(x); return x; });
+      p.querySelector('.ts-screen').insertAdjacentElement('afterend', dots);
+      function go(i) {
+        i = (i + steps.length) % steps.length; cur = i;
+        steps.forEach(function (c, j) { c.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+        dbs.forEach(function (c, j) { if (j === i) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current'); });
+        imgs.forEach(function (im, j) { im.hidden = j !== i; });
+        if (view) view.scrollTop = 0;
+        if (cap) cap.textContent = steps[i].getAttribute('data-cap');
+        var sb = steps[i], row = sb.parentNode;
+        if (row.scrollWidth > row.clientWidth) row.scrollTo({ left: sb.offsetLeft - (row.clientWidth - sb.offsetWidth) / 2, behavior: 'smooth' });
+      }
+      steps.forEach(function (b, i) { b.addEventListener('click', function () { go(i); }); });
+      go(0);
+      /* swipe (touch) or drag (mouse) on the screen to change step */
+      if (!view) return;
+      view.classList.add('swipe');
+      var sx = 0, sy = 0, on = false;
+      view.addEventListener('touchstart', function (e) { var t = e.touches[0]; sx = t.clientX; sy = t.clientY; on = true; }, { passive: true });
+      view.addEventListener('touchend', function (e) {
+        if (!on) return; on = false; var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+      var mx = 0, md = false;
+      view.addEventListener('mousedown', function (e) { if (e.button === 0) { mx = e.clientX; md = true; } });
+      window.addEventListener('mouseup', function (e) { if (!md) return; md = false; var dx = e.clientX - mx; if (Math.abs(dx) > 60) go(cur + (dx < 0 ? 1 : -1)); });
+      view.addEventListener('dragstart', function (e) { e.preventDefault(); });
     });
   })();
 
@@ -1686,7 +1759,7 @@ a.cq-a:hover { border-color: var(--accent); }
   if (!svg) return;
   var NS = 'http://www.w3.org/2000/svg';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var W = 1000, H = 541, VX = 100, VY = 0, VW = 900, VH = 430, LON0 = 25, LAT1 = 33.8, K = 34.23, CX = 0.8988;
+  var W = 1000, H = 541, VX = 140, VY = 8, VW = 855, VH = 420, LON0 = 25, LAT1 = 33.8, K = 34.23, CX = 0.8988;
   function P(lon, lat) { return [ +((lon - LON0) * CX * K).toFixed(1), +((LAT1 - lat) * K).toFixed(1) ]; }
   function el(tag, attrs, parent) {
     var e = document.createElementNS(NS, tag);
@@ -1734,21 +1807,29 @@ a.cq-a:hover { border-color: var(--accent); }
     if (rot) t.setAttribute('transform', 'rotate(' + rot + ' ' + p[0] + ' ' + p[1] + ')');
     t.textContent = txt;
   }
-  label('Mediterranean Sea', 31.0, 32.6, 'ls');
+  label('Mediterranean Sea', 33.2, 32.55, 'ls');
   label('Red Sea', 35.6, 25.8, 'ls', 59);
   label('Arabian Gulf', 52.0, 26.7, 'ls', 22);
-  label('EGYPT', 29.9, 27.0, 'lc');
+  label('EGYPT', 31.0, 27.2, 'lc');
   label('SAUDI ARABIA', 42.0, 22.4, 'lc');
   label('UAE', 51.6, 23.6, 'lc');
   label('IRAQ', 43.4, 32.3, 'lm');
   label('IRAN', 53.5, 29.3, 'lm');
 
   function icon(d, x, y, s) { el('path', { d: d, 'class': 'icon', transform: 'translate(' + x + ' ' + y + ') scale(' + (s || 1) + ')' }); }
-  icon('M0,-8 L14,-14 L28,-8 L14,-2 Z M6,-5.5 V1 Q14,5 22,1 V-5.5 M28,-8 V0', 146, 72);
-  icon('M-4,0 H54 M0,0 L17,-17 L34,0 M17,-17 L20,0 M26,0 L38,-11 L50,0', 126, 268);
-  /* real landmarks: [shape, accent] in local units, base at y = 0 */
-  function landmark(name, x, y, sc, body, acc, extra) {
+  var LMK = [];
+  function iconG(c, name, d, x, y, sc) {
     var g = el('g', { 'class': 'lmk', transform: 'translate(' + x + ' ' + y + ') scale(' + sc + ')' });
+    el('title', {}, g).textContent = name;
+    el('path', { d: d, 'class': 'icon' }, g);
+    LMK.push({ c: c, g: g });
+  }
+  iconG(0, 'Graduation, Mansoura', 'M0,-8 L14,-14 L28,-8 L14,-2 Z M6,-5.5 V1 Q14,5 22,1 V-5.5 M28,-8 V0', 160, 80, 1.15);
+  iconG(1, 'Giza Pyramids, Cairo', 'M-4,0 H54 M0,0 L17,-17 L34,0 M17,-17 L20,0 M26,0 L38,-11 L50,0', 150, 266, 1.25);
+  /* real landmarks: [shape, accent] in local units, base at y = 0 */
+  function landmark(name, x, y, sc, body, acc, extra, c) {
+    var g = el('g', { 'class': 'lmk', transform: 'translate(' + x + ' ' + y + ') scale(' + sc + ')' });
+    LMK.push({ c: c, g: g });
     el('title', {}, g).textContent = name;
     el('path', { d: body, 'class': 'lm-b' }, g);
     if (extra) el('path', { d: extra, 'class': 'lm-l' }, g);
@@ -1757,20 +1838,20 @@ a.cq-a:hover { border-color: var(--accent); }
   }
   function drawLandmarks() {
   /* Riyadh: Kingdom Centre */
-  landmark('Kingdom Centre, Riyadh', 702, 318, 1.25,
+  landmark('Kingdom Centre, Riyadh', 704, 318, 1.5,
     'M-11,0 V-34 C-11,-52 -9.5,-64 -7.5,-74 L-4.6,-74 C-4.6,-62 -3.6,-52 0,-50 C3.6,-52 4.6,-62 4.6,-74 L7.5,-74 C9.5,-64 11,-52 11,-34 V0 Z',
     function (g) { el('path', { d: 'M-5,-70 H5', 'class': 'lm-a' }, g); },
-    'M0,-50 V0 M-11,-12 H11 M-11,-24 H11');
-  el('path', { d: 'M684,318 H720', 'class': 'lm-gr' });
+    'M0,-50 V0 M-11,-12 H11 M-11,-24 H11', 2);
+  el('path', { d: 'M682,318 H726', 'class': 'lm-gr' });
   /* Dubai: Burj Khalifa */
-  landmark('Burj Khalifa, Dubai', 972, 302, 1.12,
+  landmark('Burj Khalifa, Dubai', 969, 302, 1.35,
     'M-9,0 V-24 H-7 V-44 H-5 V-60 H-3.2 V-74 H-1.6 V-86 H-0.6 L0,-110 L0.6,-90 H1.4 V-80 H2.8 V-66 H4.2 V-50 H6 V-32 H8 V-14 H9 V0 Z',
     function (g) { el('path', { d: 'M0,-110 V-100', 'class': 'lm-a' }, g); },
-    'M0,-86 V0');
-  el('path', { d: 'M958,302 H986', 'class': 'lm-gr' });
+    'M0,-86 V0', 3);
+  el('path', { d: 'M953,302 H985', 'class': 'lm-gr' });
   }
 
-  var nb = el('g', { 'class': 'minor-g', transform: 'translate(980 422)' });
+  var nb = el('g', { 'class': 'minor-g', transform: 'translate(976 422)' });
   el('path', { d: 'M0,0 V-34 M-6,-24 L0,-36 L6,-24 Z', 'class': 'icon' }, nb);
   el('text', { x: 0, y: -42, 'class': 'gl', 'text-anchor': 'middle' }, nb).textContent = 'N';
   var sb = el('g', { 'class': 'minor-g', transform: 'translate(676 418)' });
@@ -1782,7 +1863,7 @@ a.cq-a:hover { border-color: var(--accent); }
 
   /* map stops (cities) and the career steps that sit on them */
   var C = [
-    { city: 'Mansoura', country: 'Egypt', lon: 31.38, lat: 31.04, yr: '2022', side: 'r' },
+    { city: 'Mansoura', country: 'Egypt', lon: 31.38, lat: 31.04, dlon: 31.95, dlat: 31.32, yr: '2022', side: 'r' },
     { city: 'Cairo', country: 'Egypt', lon: 31.24, lat: 30.04, yr: '2023', side: 'b' },
     { city: 'Riyadh', country: 'Saudi Arabia', lon: 46.68, lat: 24.71, yr: '2024', side: 'b' },
     { city: 'Dubai', country: 'UAE', lon: 55.27, lat: 25.20, yr: '2026', side: 'lb' }
@@ -1795,9 +1876,9 @@ a.cq-a:hover { border-color: var(--accent); }
     { c: 3, name: 'Al Kharafi', yr: '2026', when: 'Feb 2026 to now', role: 'BIM Coordinator', org: 'Al Kharafi', now: true }
   ];
   var n = S.length;
-  C.forEach(function (c) { c.p = P(c.lon, c.lat); });
+  C.forEach(function (c) { c.p = P(c.dlon || c.lon, c.dlat || c.lat); });
   S.forEach(function (s) { var c = C[s.c]; s.city = c.city; s.country = c.country; s.lon = c.lon; s.lat = c.lat; });
-  var C1 = P(30.7, 30.6), C2 = P(39, 30), C3 = P(51, 27);
+  var C1 = P(31.2, 30.9), C2 = P(39, 30), C3 = P(51, 27);
   function pt(p) { return p[0] + ',' + p[1]; }
   var segs = ['M' + pt(C[0].p), 'Q' + pt(C1) + ' ' + pt(C[1].p), 'Q' + pt(C2) + ' ' + pt(C[2].p), 'Q' + pt(C3) + ' ' + pt(C[3].p)];
   var dAll = segs.join(' ');
@@ -1867,6 +1948,7 @@ a.cq-a:hover { border-color: var(--accent); }
     q('m-note').textContent = s.note || ''; q('m-note').hidden = !s.note;
     q('m-xy').innerHTML = s.lat.toFixed(2) + '°N<br>' + s.lon.toFixed(2) + '°E';
     q('m-now').hidden = !s.now;
+    LMK.forEach(function (l) { l.g.classList.toggle('act', l.c === s.c); });
     if (fill) fill.style.transform = 'scaleX(' + (i / (n - 1)) + ')';
     steps.forEach(function (b, j) {
       b.classList.toggle('done', j < i);
