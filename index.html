@@ -198,13 +198,16 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .stn:hover .lbl { border-color: var(--fg); }
 
 /* stepper under the map */
-.jsteps { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-.jtrack { position: absolute; left: 12.5%; right: 12.5%; top: 22px; height: 2px; background: var(--line); pointer-events: none; }
+.jsteps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.jtrack { position: absolute; left: 10%; right: 10%; top: 22px; height: 2px; background: var(--line); pointer-events: none; }
 .jtrack i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); transform-origin: left center; transform: scaleX(0); transition: transform .9s cubic-bezier(.45,0,.25,1); }
 .jstep { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 15px 4px 12px; background: none; border: 0; color: var(--muted); cursor: pointer; font: inherit; }
 .jstep .sd { position: relative; z-index: 1; width: 14px; height: 14px; margin-bottom: 6px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); transition: background-color .3s, border-color .3s, box-shadow .3s; }
 .jstep b { font: 600 13px/1.1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; }
-.jstep span:last-child { font: 400 11px/1.2 var(--font-mono); }
+.jstep span:last-child { font: 400 11px/1.2 var(--font-mono); white-space: nowrap; }
+.jstep b { white-space: nowrap; }
+.jstep em { font-style: normal; }
+.jstep span:last-child { font-size: 10.5px; }
 .jstep.done .sd { background: var(--accent); border-color: var(--accent); }
 .jstep.cur .sd { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 22%, transparent); }
 .jstep.done, .jstep.cur { color: var(--fg); }
@@ -213,7 +216,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .jstep:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 
 /* details of the current stop */
-.jcard { display: flex; align-items: flex-start; gap: 16px; min-height: 128px; padding: 14px 18px 16px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--bg)); border-radius: 0 0 4px 4px; }
+.jcard { display: flex; align-items: flex-start; gap: 16px; min-height: 108px; padding: 14px 18px 16px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--bg)); border-radius: 0 0 4px 4px; }
 .jc-main { min-width: 0; flex: 1; }
 .jcard.in .jc-main { animation: cardin .45s ease; }
 @keyframes cardin { from { opacity: 0; transform: translateY(6px); } }
@@ -233,7 +236,8 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
   .stn .nx { left: -4px; top: -4px; width: 30px; height: 30px; }
   .lbl { display: none; }
   .jhead { padding: 8px 10px 8px 12px; }
-  .jstep b { font-size: 11px; letter-spacing: 0.03em; }
+  .jstep b { font-size: 10px; letter-spacing: 0.02em; }
+  .jstep em { display: none; }
   .jstep { padding: 13px 2px 10px; }
   .jtrack { top: 20px; }
   .jcard { padding: 12px 14px 14px; }
@@ -894,10 +898,10 @@ a.cc-row:hover { transform: translateX(3px); }
       <div class="jsteps" id="jsteps"><span class="jtrack" aria-hidden="true"><i id="jfill"></i></span></div>
       <div class="jcard" id="jcard" aria-live="polite">
         <div class="jc-main">
-          <p class="m-when"><span id="m-when">Jan 2022 to Apr 2023</span><span aria-hidden="true">&middot;</span><span id="m-place">Mansoura, Egypt</span><span class="now" id="m-now" hidden>Now</span></p>
-          <h3 id="m-role">Technical Office Bridge Engineer</h3>
-          <p class="m-org" id="m-org">Al Nile Contracting</p>
-          <p class="m-note" id="m-note">Graduated in Civil Engineering, Jan 2022</p>
+          <p class="m-when"><span id="m-when">Jan 2022</span><span aria-hidden="true">&middot;</span><span id="m-place">Mansoura, Egypt</span><span class="now" id="m-now" hidden>Now</span></p>
+          <h3 id="m-role">Graduated in Civil Engineering</h3>
+          <p class="m-org" id="m-org">Delta Higher Institute for Engineering and Technology</p>
+          <p class="m-note" id="m-note" hidden></p>
         </div>
         <p class="m-xy" id="m-xy">31.04&deg;N<br>31.38&deg;E</p>
       </div>
@@ -1705,44 +1709,59 @@ a.cc-row:hover { transform: translateX(3px); }
   el('text', { x: 77, y: -12, 'class': 'gl', 'text-anchor': 'middle' }, sb).textContent = '250';
   el('text', { x: 160, y: -12, 'class': 'gl', 'text-anchor': 'end' }, sb).textContent = '500 km';
 
+  /* map stops (cities) and the career steps that sit on them */
+  var C = [
+    { city: 'Mansoura', country: 'Egypt', lon: 31.38, lat: 31.04, yr: '2022', side: 'r' },
+    { city: 'Cairo', country: 'Egypt', lon: 31.24, lat: 30.04, yr: '2023', side: 'b' },
+    { city: 'Riyadh', country: 'Saudi Arabia', lon: 46.68, lat: 24.71, yr: '2024', side: 'b' },
+    { city: 'Dubai', country: 'UAE', lon: 55.27, lat: 25.20, yr: '2026', side: 'lb' }
+  ];
   var S = [
-    { city: 'Mansoura', country: 'Egypt', lon: 31.38, lat: 31.04, yr: '2022', when: 'Jan 2022 to Apr 2023', role: 'Technical Office Bridge Engineer', org: 'Al Nile Contracting', note: 'Graduated in Civil Engineering, Jan 2022', side: 'r' },
-    { city: 'Cairo', country: 'Egypt', lon: 31.24, lat: 30.04, yr: '2023', when: 'Apr 2023 to Sep 2024', role: 'Structural and Bridge BIM Engineer', org: 'El Soadaa Group', side: 'b' },
-    { city: 'Riyadh', country: 'Saudi Arabia', lon: 46.68, lat: 24.71, yr: '2024', when: 'Sep 2024 to Feb 2026', role: 'Mid Level Structural BIM Engineer', org: 'Al Bawani', side: 'b' },
-    { city: 'Dubai', country: 'UAE', lon: 55.27, lat: 25.20, yr: '2026', when: 'Feb 2026 to now', role: 'BIM Coordinator', org: 'Al Kharafi', side: 'lb', now: true }
+    { c: 0, name: 'Graduated', yr: 'Jan 2022', when: 'Jan 2022', role: 'Graduated in Civil Engineering', org: 'Delta Higher Institute for Engineering and Technology' },
+    { c: 0, name: 'Al Nile', yr: '2022', when: 'Jan 2022 to Apr 2023', role: 'Technical Office Bridge Engineer', org: 'Al Nile Contracting' },
+    { c: 1, name: 'El Soadaa', yr: '2023', when: 'Apr 2023 to Sep 2024', role: 'Structural and Bridge BIM Engineer', org: 'El Soadaa Group' },
+    { c: 2, name: 'Al Bawani', yr: '2024', when: 'Sep 2024 to Feb 2026', role: 'Mid Level Structural BIM Engineer', org: 'Al Bawani' },
+    { c: 3, name: 'Al Kharafi', yr: '2026', when: 'Feb 2026 to now', role: 'BIM Coordinator', org: 'Al Kharafi', now: true }
   ];
   var n = S.length;
-  S.forEach(function (s) { s.p = P(s.lon, s.lat); });
+  C.forEach(function (c) { c.p = P(c.lon, c.lat); });
+  S.forEach(function (s) { var c = C[s.c]; s.city = c.city; s.country = c.country; s.lon = c.lon; s.lat = c.lat; });
   var C1 = P(30.7, 30.6), C2 = P(39, 30), C3 = P(51, 27);
   function pt(p) { return p[0] + ',' + p[1]; }
-  var segs = ['M' + pt(S[0].p), 'Q' + pt(C1) + ' ' + pt(S[1].p), 'Q' + pt(C2) + ' ' + pt(S[2].p), 'Q' + pt(C3) + ' ' + pt(S[3].p)];
+  var segs = ['M' + pt(C[0].p), 'Q' + pt(C1) + ' ' + pt(C[1].p), 'Q' + pt(C2) + ' ' + pt(C[2].p), 'Q' + pt(C3) + ' ' + pt(C[3].p)];
   var dAll = segs.join(' ');
   el('path', { d: dAll, 'class': 'route-base' });
   var prog = el('path', { d: dAll, 'class': 'route-prog' });
   drawLandmarks();
   var total = prog.getTotalLength();
-  var L = [0];
+  var CL = [0];
   var tmp = el('path', { d: '', visibility: 'hidden' });
-  for (var i = 2; i <= n; i++) {
+  for (var i = 2; i <= C.length; i++) {
     tmp.setAttribute('d', segs.slice(0, i).join(' '));
-    L.push(i === n ? total : tmp.getTotalLength());
+    CL.push(i === C.length ? total : tmp.getTotalLength());
   }
   svg.removeChild(tmp);
+  var L = S.map(function (s) { return CL[s.c]; });
   prog.style.strokeDasharray = total + ' ' + total;
   var mk = el('g', {});
   el('circle', { r: 15, 'class': 'mk-halo' }, mk);
   el('circle', { r: 6, 'class': 'mk' }, mk);
 
   var box = document.getElementById('stations');
-  var btns = S.map(function (s, i) {
+  var btns = C.map(function (c, ci) {
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'stn';
-    b.style.left = ((s.p[0] - VX) / VW * 100) + '%';
-    b.style.top = ((s.p[1] - VY) / VH * 100) + '%';
-    b.setAttribute('aria-label', s.when + ', ' + s.city + ', ' + s.country + ': ' + s.role);
-    b.innerHTML = '<svg class="nx" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15"></circle></svg><span class="dot"></span><span class="lbl ' + s.side + '"><b>' + s.city + '</b><i>' + s.yr + '</i></span>';
-    b.addEventListener('click', function () { stopPlay(); go(i); });
+    b.style.left = ((c.p[0] - VX) / VW * 100) + '%';
+    b.style.top = ((c.p[1] - VY) / VH * 100) + '%';
+    b.setAttribute('aria-label', c.city + ', ' + c.country);
+    b.innerHTML = '<svg class="nx" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15"></circle></svg><span class="dot"></span><span class="lbl ' + c.side + '"><b>' + c.city + '</b><i>' + c.yr + '</i></span>';
+    b.addEventListener('click', function () {
+      stopPlay();
+      var first = -1; S.forEach(function (s, j) { if (s.c === ci && first < 0) first = j; });
+      var tgt = (S[cur].c === ci) ? (cur + 1 < n && S[cur + 1].c === ci ? cur + 1 : first) : first;
+      go(tgt);
+    });
     box.appendChild(b);
     return b;
   });
@@ -1751,8 +1770,8 @@ a.cc-row:hover { transform: translateX(3px); }
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'jstep';
-    b.setAttribute('aria-label', s.city + ', ' + s.yr + ': ' + s.role);
-    b.innerHTML = '<span class="sd"></span><b>' + s.city + '</b><span>' + s.yr + '</span>';
+    b.setAttribute('aria-label', s.name + ', ' + s.city + ', ' + s.when + ': ' + s.role);
+    b.innerHTML = '<span class="sd"></span><b>' + s.name + '</b><span><em>' + s.city + ' &middot; </em>' + s.yr.replace('Jan ', '') + '</span>';
     b.addEventListener('click', function () { stopPlay(); go(i); });
     stepBox.appendChild(b);
     return b;
@@ -1784,10 +1803,10 @@ a.cc-row:hover { transform: translateX(3px); }
       if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
     });
     card.classList.remove('in'); void card.offsetWidth; card.classList.add('in');
-    btns.forEach(function (b, j) {
-      b.classList.toggle('done', j < i);
-      b.classList.toggle('cur', j === i);
-      if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    btns.forEach(function (b, ci) {
+      b.classList.toggle('done', ci < S[i].c);
+      b.classList.toggle('cur', ci === S[i].c);
+      if (ci === S[i].c) b.setAttribute('aria-current', 'location'); else b.removeAttribute('aria-current');
     });
   }
   var NXC = 2 * Math.PI * 15;
@@ -1802,7 +1821,7 @@ a.cc-row:hover { transform: translateX(3px); }
     clearTimeout(timer); barReset();
     if (!playing || !visible || document.hidden) return;
     var ms = cur === n - 1 ? 3500 : 2500;
-    var nb = btns[(cur + 1) % n], c = nb.querySelector('.nx circle');
+    var nb = btns[S[(cur + 1) % n].c], c = nb.querySelector('.nx circle');
     nb.classList.add('next');
     if (c) { void c.getBoundingClientRect(); c.style.transition = 'stroke-dashoffset ' + ms + 'ms linear'; c.style.strokeDashoffset = '0'; }
     timer = setTimeout(function () { go(cur + 1); }, ms);
