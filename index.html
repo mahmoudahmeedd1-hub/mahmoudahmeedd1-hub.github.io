@@ -526,6 +526,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
 .fd-l i { flex: none; width: 10px; height: 10px; border-radius: 2px; }
 .fd-track { position: relative; height: 18px; background: var(--bg); border: 1px solid var(--line); border-radius: 2px; }
 .fd-bar { position: absolute; top: 3px; bottom: 3px; border-radius: 1px; }
+.c0 { background: color-mix(in srgb, var(--accent2) 40%, var(--muted)); }
 .c1 { background: var(--accent2); }
 .c2 { background: color-mix(in srgb, var(--accent2) 50%, var(--accent)); }
 .c3 { background: var(--accent); }
@@ -545,6 +546,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
 .fd-bld .base polygon { fill: color-mix(in srgb, var(--muted) 30%, var(--surface)); stroke: var(--surface); stroke-width: 0.6; }
 .fd-bld .fl { opacity: 0; transform: translateY(-12px); transition: opacity .3s ease, transform .3s ease; }
 .fd-bld .fl.on { opacity: 1; transform: none; }
+.fd-bld .f0 { --c: color-mix(in srgb, var(--accent2) 40%, var(--muted)); }
 .fd-bld .f1 { --c: var(--accent2); }
 .fd-bld .f2 { --c: color-mix(in srgb, var(--accent2) 50%, var(--accent)); }
 .fd-bld .f3 { --c: var(--accent); }
@@ -1059,13 +1061,14 @@ a.cc-row:hover { transform: translateX(3px); }
       <div class="fd-main">
         <div class="fd-head"><span class="lab-k">Interactive &middot; 4D sequence</span><button class="cp" type="button" id="fdplay">Replay</button></div>
         <div class="fd-rows">
-          <div class="fd-row"><span class="fd-l"><i class="c1"></i>El Soadaa &middot; Cairo</span><div class="fd-track"><i class="fd-bar c1" style="left:0%;width:40.48%"></i></div></div>
-          <div class="fd-row"><span class="fd-l"><i class="c2"></i>Al Bawani &middot; Riyadh</span><div class="fd-track"><i class="fd-bar c2" style="left:40.48%;width:40.48%"></i></div></div>
-          <div class="fd-row"><span class="fd-l"><i class="c3"></i>Al Kharafi &middot; Dubai</span><div class="fd-track"><i class="fd-bar c3 now" style="left:80.95%;width:19.05%"></i></div></div>
+          <div class="fd-row"><span class="fd-l"><i class="c0"></i>Al Nile &middot; Mansoura</span><div class="fd-track"><i class="fd-bar c0" style="left:0.00%;width:26.32%"></i></div></div>
+          <div class="fd-row"><span class="fd-l"><i class="c1"></i>El Soadaa &middot; Cairo</span><div class="fd-track"><i class="fd-bar c1" style="left:26.32%;width:29.82%"></i></div></div>
+          <div class="fd-row"><span class="fd-l"><i class="c2"></i>Al Bawani &middot; Riyadh</span><div class="fd-track"><i class="fd-bar c2" style="left:56.14%;width:29.82%"></i></div></div>
+          <div class="fd-row"><span class="fd-l"><i class="c3"></i>Al Kharafi &middot; Dubai</span><div class="fd-track"><i class="fd-bar c3 now" style="left:85.96%;width:14.04%"></i></div></div>
           <div class="fd-ph" aria-hidden="true"><div class="fd-phi" id="fdph"><i></i><b id="fdphl">Now</b></div></div>
         </div>
-        <div class="fd-axis" aria-hidden="true"><span></span><div class="fd-ticks"><span style="left:0%">Apr 2023</span><span style="left:21.43%">2024</span><span style="left:50%">2025</span><span style="left:78.57%">2026</span></div></div>
-        <div class="fd-scrub"><span class="fd-sl">Scrub</span><input type="range" id="fdr" min="0" max="42" step="0.1" value="42" aria-label="Career timeline, months since April 2023"></div>
+        <div class="fd-axis" aria-hidden="true"><span></span><div class="fd-ticks"><span style="left:0%">Jan 2022</span><span style="left:21.05%">2023</span><span style="left:42.11%">2024</span><span style="left:63.16%">2025</span><span style="left:84.21%">2026</span></div></div>
+        <div class="fd-scrub"><span class="fd-sl">Scrub</span><input type="range" id="fdr" min="0" max="57" step="0.1" value="57" aria-label="Career timeline, months since January 2022"></div>
       </div>
       <svg class="fd-bld" id="fdsvg" viewBox="0 0 330 360" role="img" aria-label="A building under construction that rises floor by floor with each role"></svg>
     </div>
@@ -1330,7 +1333,7 @@ a.cc-row:hover { transform: translateX(3px); }
   (function () {
     var sv = document.getElementById('fdsvg'), r = document.getElementById('fdr'), ph = document.getElementById('fdph'), phl = document.getElementById('fdphl'), rp = document.getElementById('fdplay');
     if (!sv || !r || !ph) return;
-    var I = isoFactory(42, 165, 300), P = I.P, M = 42, H = 0.36, X0 = -0.8, X1 = 0.8, Y0 = -0.5, Y1 = 0.5;
+    var I = isoFactory(42, 165, 300), P = I.P, M = 57, SIGN0 = 52, H = 0.36, X0 = -0.8, X1 = 0.8, Y0 = -0.5, Y1 = 0.5;
     function L(g, a, b, cls) { var A = P(a[0], a[1], a[2]), B = P(b[0], b[1], b[2]); return mk('line', { x1: A[0], y1: A[1], x2: B[0], y2: B[1], 'class': cls || '' }, g); }
     function face(g, q, cls) { mk('polygon', { points: q.map(function (v) { return P(v[0], v[1], v[2]).join(','); }).join(' '), 'class': cls }, g); }
     function bubble(g, p, t) { var b = mk('g', { 'class': 'gb' }, g); mk('circle', { cx: p[0], cy: p[1], r: 6 }, b); mk('text', { x: p[0], y: +p[1] + 3 }, b).textContent = t; }
@@ -1356,12 +1359,12 @@ a.cc-row:hover { transform: translateX(3px); }
     I.box(base, -1, -0.65, -0.15, 1, 0.65, 0);
 
     /* floors */
-    var plan = [[1, 5, 0, 17], [2, 5, 17, 34], [3, 2, 34, 42]], floors = [], firsts = [], k = 0;
+    var plan = [[0, 2, 0, 15], [1, 4, 15, 32], [2, 4, 32, 49], [3, 2, 49, 52]], floors = [], firsts = [], k = 0;
     plan.forEach(function (pl) {
       for (var j = 0; j < pl[1]; j++, k++) {
         var at = pl[2] + (pl[3] - pl[2]) * (j + 1) / pl[1];
         var wip = pl[0] === 3 && j === pl[1] - 1;
-        if (pl[0] === 3) at = wip ? 39 : 36;
+        if (pl[0] === 3) at = wip ? 52 : 50.5;
         if (j === 0) firsts.push(at);
         var g = mk('g', { 'class': 'fl f' + pl[0] + (wip ? ' wip' : '') }, sv);
         var z0 = k * H, z1 = z0 + H, zs = z0 + 0.06;
@@ -1388,7 +1391,7 @@ a.cc-row:hover { transform: translateX(3px); }
     });
 
     /* Revit-style level heads */
-    [[0, 'L00', '±0.00'], [5, 'L05', '+18.00'], [10, 'L10', '+36.00'], [12, 'L12', '+43.20']].forEach(function (lv) {
+    [[0, 'L00', '±0.00'], [2, 'L02', '+7.20'], [6, 'L06', '+21.60'], [10, 'L10', '+36.00'], [12, 'L12', '+43.20']].forEach(function (lv) {
       var A = P(X0, Y1, lv[0] * H), y = +A[1];
       mk('line', { x1: +A[0] - 4, y1: y, x2: 30, y2: y, 'class': 'lvl' }, sv);
       mk('circle', { cx: 26, cy: y, r: 3.5, 'class': 'lvh' }, sv);
@@ -1396,9 +1399,9 @@ a.cc-row:hover { transform: translateX(3px); }
     });
 
     /* company brackets on the right */
-    var names = [['El Soadaa', '2023–24', 0, 5], ['Al Bawani', '2024–26', 5, 10], ['Al Kharafi', '2026–now', 10, 12]], brks = [];
+    var names = [['Al Nile', '2022–23', 0, 2, 0], ['El Soadaa', '2023–24', 2, 6, 1], ['Al Bawani', '2024–26', 6, 10, 2], ['Al Kharafi', '2026–now', 10, 12, 3]], brks = [];
     names.forEach(function (nm, i) {
-      var g = mk('g', { 'class': 'fl f' + (i + 1) }, sv);
+      var g = mk('g', { 'class': 'fl f' + nm[4] }, sv);
       var a = P(X1, Y0, nm[2] * H + 0.04), b = P(X1, Y0, nm[3] * H - 0.02), x = +a[0] + 12;
       mk('path', { d: 'M' + (x - 4) + ',' + a[1] + ' H' + x + ' V' + b[1] + ' H' + (x - 4), 'class': 'brk' }, g);
       var my2 = (+a[1] + +b[1]) / 2;
@@ -1441,7 +1444,8 @@ a.cc-row:hover { transform: translateX(3px); }
       var per = 1500, t0 = performance.now();
       (function step(n) {
         var e = n - t0, i = Math.floor(e / per);
-        if (i >= LET.length) { placeAll(); return; }
+        if (i >= LET.length) { set(M); placeAll(); return; }
+        set(SIGN0 + (M - SIGN0) * Math.min(1, e / (per * LET.length)));
         var u = (e - i * per) / per, l = LET[i];
         var h = trolleyAt(HOME), t = trolleyAt(l.x);
         var tx, ty, hx, hy;
@@ -1462,7 +1466,16 @@ a.cc-row:hover { transform: translateX(3px); }
     }
 
     var MN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    function label(m) { if (m >= M - 0.05) return 'Now'; var idx = 3 + Math.floor(m); return MN[idx % 12] + ' ' + (2023 + Math.floor(idx / 12)); }
+    function label(m) { if (m >= M - 0.05) return 'Now'; var idx = Math.floor(m); return MN[idx % 12] + ' ' + (2022 + Math.floor(idx / 12)); }
+    /* BIM letters are set during the last role: letter i lands at SIGN0 + (M - SIGN0) * (i + 1) / 3 */
+    function signAt(m) {
+      LET.forEach(function (l, i) {
+        var on = m >= SIGN0 + (M - SIGN0) * (i + 1) / LET.length - 0.05;
+        if (on) { l.el.setAttribute('x', l.fx); l.el.setAttribute('y', l.fy); }
+        l.el.classList.toggle('on', on); l.el.classList.toggle('set', on);
+      });
+      lettersG.classList.toggle('lit', m >= M - 0.05); homeHook();
+    }
     function set(m) {
       floors.concat(brks).forEach(function (f) { f.g.classList.toggle('on', m >= f.at - 0.001); });
       ph.style.left = (m / M * 100) + '%';
@@ -1474,17 +1487,17 @@ a.cc-row:hover { transform: translateX(3px); }
       cancelAnimationFrame(raf); cancelAnimationFrame(sraf);
       if (RM) { set(M); placeAll(); return; }
       resetSign();
-      var t0 = performance.now(), dur = 4800;
+      var t0 = performance.now(), dur = 4400;
       (function step(n) {
         var u = Math.min(1, (n - t0) / dur);
-        set(M * u);
+        set(SIGN0 * u);
         if (u < 1) raf = requestAnimationFrame(step); else animateSign();
       })(t0);
     }
     r.addEventListener('input', function () {
       cancelAnimationFrame(raf); cancelAnimationFrame(sraf);
       var v = +r.value; set(v);
-      if (v >= M - 0.01) placeAll(); else resetSign();
+      if (v >= M - 0.01) placeAll(); else signAt(v);
     });
     if (rp) rp.addEventListener('click', play);
     set(M); placeAll();
