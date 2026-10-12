@@ -1901,7 +1901,7 @@ a.cc-row:hover { transform: translateX(3px); }
   var done = false;
   function run() {
     if (done) return; done = true;
-    var dur = 9000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
+    var dur = 28000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
     (function step(now) {
       var k = Math.min(n, Math.ceil((now - t0) / dur * n));
       for (; shown < k; shown++) chars[shown].classList.add('on');
