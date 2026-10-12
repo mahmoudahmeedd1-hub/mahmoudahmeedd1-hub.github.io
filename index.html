@@ -863,11 +863,9 @@ a.cc-row:hover { transform: translateX(3px); }
 .mq-certs { margin: -4px 0 40px; }
 .mq-track { display: flex; gap: 18px; width: max-content; list-style: none; margin: 0; padding: 0; animation: mqlr 40s linear infinite; }
 .mq-certs .mq-track { animation-duration: 55s; }
-/* certificate badges: one size, one colour */
+/* certificate badges: one size */
 .mq-certs .mq-i { height: 70px; gap: 12px; padding: 8px 16px 8px 8px; }
 .mq-certs .plate { width: 104px; height: 54px; padding: 6px 10px; }
-.mq-certs .plate img { filter: grayscale(1) contrast(1.15); opacity: 0.88; transition: filter .3s, opacity .3s; }
-.mq-certs .mq-i:hover .plate img { filter: none; opacity: 1; }
 .mq-certs .mq-tx b { font-size: 17px; }
 .mq-certs .mq-tx i { font-size: 11px; }
 @media (max-width: 640px) { .mq-certs .mq-i { height: 62px; } .mq-certs .plate { width: 90px; height: 46px; padding: 5px 8px; } .mq-certs .mq-tx b { font-size: 15px; } }
@@ -934,6 +932,19 @@ a.cq-a:hover { border-color: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) { .fd-bld .fl { transition: none; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .stn.cur::after { display: none; } .jcard.in .jc-main { animation: none; } .jtrack i { transition: none; } }
+
+/* ---------- one icon system: same tile, same size, same shape everywhere ---------- */
+.val-ic, .tool-ic, .sec-ic, .ed-ic, .f-ic, .cc-ic { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 8px; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: none; transition: background-color .25s, box-shadow .25s; }
+.val-ic svg, .tool-ic svg, .sec-ic svg { width: 32px; height: 32px; }
+.ed-ic svg, .f-ic svg, .cc-ic svg { width: 26px; height: 26px; stroke-width: 1.5; }
+.i-m { stroke-width: 2.4; }
+.i-d { stroke-width: 1.6; opacity: 0.6; }
+.val:hover .val-ic, .tool:hover .tool-ic, .sector:hover .sec-ic, .ed:hover .ed-ic, .cc:hover .cc-ic { background: color-mix(in srgb, var(--accent) 22%, transparent); box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 28%, transparent); }
+@media (max-width: 640px) {
+  .val-ic, .tool-ic, .sec-ic, .ed-ic, .f-ic, .cc-ic { width: 44px; height: 44px; }
+  .val-ic svg, .tool-ic svg, .sec-ic svg { width: 30px; height: 30px; }
+  .ed-ic svg, .f-ic svg, .cc-ic svg { width: 24px; height: 24px; }
+}
 </style>
 </head>
 <body>
@@ -2049,6 +2060,14 @@ a.cq-a:hover { border-color: var(--accent); }
       tr.appendChild(c);
     });
   });
+  /* same speed as the certificate strip in Credentials: 35 px per second */
+  function speed() {
+    Array.prototype.forEach.call(document.querySelectorAll('.mq-track'), function (tr) {
+      var dist = tr.scrollWidth / 2 + 9;
+      if (dist > 20) tr.style.animationDuration = (dist / 35).toFixed(1) + 's';
+    });
+  }
+  speed(); window.addEventListener('resize', speed); window.addEventListener('load', speed);
 })();
 /* ---- certificate loop: auto-moves left to right, swipe / drag / arrows to browse ---- */
 (function () {
@@ -2073,16 +2092,16 @@ a.cq-a:hover { border-color: var(--accent); }
     var dt = last ? Math.min(64, t - last) : 16; last = t;
     var userBusy = dragging || touching || t - touchEnd < 250;
     if (!userBusy) {
-      if (Math.abs(view.scrollLeft - pos) > 2) pos = view.scrollLeft; /* wheel or keyboard moved it */
-      if (!reduce && visible && !document.hidden) pos -= dt * 0.035; /* always keeps moving left to right */
+      if (Math.abs(view.scrollLeft - pos) > 3) pos = view.scrollLeft; /* wheel or keyboard moved it */
+      if (!reduce && visible && !document.hidden) pos -= dt * 0.035; /* always keeps moving left to right, 35 px per second like the other strips */
       if (jump) {
         var u = Math.min(1, (t - jump.t0) / jump.d), e = ease(u);
         pos += jump.by * (e - jump.e); jump.e = e;
         if (u >= 1) jump = null;
       }
       view.scrollLeft = pos;
-    }
-    wrap(); pos = view.scrollLeft;
+      var before = view.scrollLeft; wrap(); pos += view.scrollLeft - before; /* keep the fractional position */
+    } else { wrap(); pos = view.scrollLeft; }
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
