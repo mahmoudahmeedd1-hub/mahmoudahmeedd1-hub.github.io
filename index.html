@@ -1971,7 +1971,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
   var done = false;
   function run() {
     if (done) return; done = true;
-    var dur = 22000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
+    var dur = 11000, t0 = performance.now(), shown = 0, n = chars.length, last = null;
     (function step(now) {
       var k = Math.min(n, Math.ceil((now - t0) / dur * n));
       for (; shown < k; shown++) chars[shown].classList.add('on');
