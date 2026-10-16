@@ -192,7 +192,10 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 #map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 #map .land { fill: var(--surface); }
 #map .ctry { fill: color-mix(in srgb, var(--accent) 6%, var(--surface)); transition: fill .4s; }
-#map .ctry.act { fill: color-mix(in srgb, var(--accent) 13%, var(--surface)); }
+#map .ctry.act { fill: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+#map .ctry-h { stroke: none; opacity: 0; transition: opacity .4s; pointer-events: none; }
+#map .ctry-h.act { opacity: 1; }
+#map .chatch { stroke: var(--accent); stroke-width: 1.3; opacity: 0.5; }
 #map .bord { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 5 4; stroke-linejoin: round; opacity: 0.45; }
 #map .water { fill: var(--water); stroke: var(--coast); stroke-width: 1.3; stroke-linejoin: round; }
 #map .water-h { stroke: none; }
@@ -1573,6 +1576,8 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
   var defs = el('defs', {});
   var pat = el('pattern', { id: 'wh', width: 7, height: 7, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
   el('line', { x1: 0, y1: 0, x2: 0, y2: 7, 'class': 'hatch' }, pat);
+  var pat2 = el('pattern', { id: 'ch', width: 8, height: 8, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(-45)' }, defs);
+  el('line', { x1: 0, y1: 0, x2: 0, y2: 8, 'class': 'chatch' }, pat2);
   el('rect', { x: VX - 20, y: VY - 20, width: VW + 40, height: VH + 40, 'class': 'land' });
 
   /* the three countries on the route; coastlines come from the water drawn on top */
@@ -1581,7 +1586,8 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
     KSA: [[39,19],[38.4,21],[37.9,22],[36.8,24.1],[35.4,26.2],[34.75,27.3],[34.47,27.95],[34.64,28.45],[34.75,28.95],[34.93,29.36],[36.07,29.19],[36.75,29.87],[38,30.5],[39.2,32.15],[40.4,31.95],[42.08,31.1],[44.7,29.2],[46.55,29.1],[47.46,29],[47.7,28.53],[48.43,28.54],[49.2,27.9],[49.95,27.1],[50.45,26.4],[50.55,25.6],[50.7,25.1],[50.8,24.75],[51.6,24.6],[51.82,24.3],[52.58,22.94],[55.2,22.7],[55,20],[55,19]],
     UAE: [[51.82,24.3],[52.58,22.94],[55.2,22.7],[55.5,23.5],[55.78,24.23],[56.13,24.65],[56.38,24.97],[56.7,25],[56.7,25.62],[56.27,25.62],[56.08,26.05],[55.9,26.35],[54.9,25.6],[53.5,24.9],[52.2,24.7],[51.9,24.45]]
   };
-  Object.keys(CTRY).forEach(function (k) { CTRY[k] = el('path', { d: poly(CTRY[k]), 'class': 'ctry' }); });
+  var CTRYH = {};
+  Object.keys(CTRY).forEach(function (k) { var d = poly(CTRY[k]); CTRY[k] = el('path', { d: d, 'class': 'ctry' }); CTRYH[k] = el('path', { d: d, 'class': 'ctry-h', fill: 'url(#ch)' }); });
 
   var MED = [[25,33.8],[25,31.6],[25.15,31.57],[26.5,31.45],[27.24,31.35],[28.2,31.05],[28.95,30.85],[29.9,31.2],[30.4,31.45],[31.0,31.6],[31.8,31.52],[32.3,31.27],[33.0,31.1],[33.8,31.13],[34.4,31.5],[34.77,32.08],[35.0,32.8],[35.3,33.4],[35.45,33.8],[35.6,34.5],[24,34.5]];
   var RED = [[32.55,29.97],[32.6,29.6],[32.75,29.15],[33.05,28.6],[33.5,28.0],[33.83,27.25],[33.93,26.73],[34.28,26.1],[34.9,25.07],[35.5,24.1],[35.65,23.9],[35.48,23.6],[36.2,22.6],[36.85,22.0],[37.2,21.0],[37.25,19.6],[37.6,18.8],[38.4,18.0],[41.6,18.0],[41.08,19.13],[40.28,20.15],[39.17,21.5],[39.0,22.8],[38.05,24.08],[37.27,25.05],[36.45,26.25],[35.7,27.35],[35.2,27.9],[34.6,28.05],[34.75,28.4],[34.82,28.9],[35.0,29.35],[35.0,29.53],[34.89,29.49],[34.67,29.0],[34.52,28.5],[34.33,27.9],[34.25,27.73],[33.9,28.1],[33.6,28.5],[33.2,29.0],[32.85,29.6],[32.65,29.95]];
@@ -1809,7 +1815,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
     var s = S[i];
     fillText(i);
     LMK.forEach(function (l) { l.g.classList.toggle('act', l.c === s.c); });
-    Object.keys(CTRY).forEach(function (k) { CTRY[k].classList.toggle('act', k === C[s.c].k); });
+    Object.keys(CTRY).forEach(function (k) { CTRY[k].classList.toggle('act', k === C[s.c].k); CTRYH[k].classList.toggle('act', k === C[s.c].k); });
     if (fill) { fill.style.transition = ''; fill.style.transform = 'scaleX(' + (i / (n - 1)) + ')'; }
     steps.forEach(function (b, j) {
       b.classList.toggle('done', j < i);
