@@ -207,11 +207,16 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 #map .icon { fill: none; stroke: var(--fg); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; opacity: 0.8; }
 #map .sbar { fill: var(--fg); opacity: 0.8; }
 #map .lmk { cursor: default; }
-#map .lmk .icon, #map .lmk .lm-b { transition: stroke .3s, fill .3s; }
+#map .lmk .icon, #map .lmk .lm-b, #map .lmk .lm-t, #map .lmk .lm-l { transition: stroke .3s, fill .3s, opacity .3s; }
 #map .lm-b { fill: var(--surface); stroke: var(--fg); stroke-width: 1.5; stroke-linejoin: round; }
 #map .lm-l { fill: none; stroke: var(--fg); stroke-width: 0.8; opacity: 0.45; }
 #map .lm-a { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; }
 #map .lm-gr { fill: none; stroke: var(--fg); stroke-width: 1.4; stroke-linecap: round; opacity: 0.6; }
+#map .lm-sh { fill: var(--fg); stroke: none; opacity: 0.16; transition: fill .3s; }
+#map .lm-t { fill: none; stroke: var(--fg); stroke-width: 1.4; stroke-linecap: round; opacity: 0.85; }
+#map .lmk.act .lm-sh { fill: var(--accent); opacity: 0.3; }
+#map .lmk.act .lm-t { stroke: var(--accent); opacity: 1; }
+#map .lmk.act { filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 45%, transparent)); }
 #map .lmk.act .icon { stroke: var(--accent); opacity: 1; }
 #map .lmk.act .lm-b { stroke: var(--accent); fill: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
 #map .lmk.act .lm-l { stroke: var(--accent); }
@@ -234,6 +239,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .lbl.r { left: 24px; top: 50%; transform: translateY(-50%); }
 .lbl.b { top: 24px; left: 50%; transform: translateX(-50%); align-items: center; }
 .lbl.lb { top: 24px; right: 2px; align-items: flex-end; }
+.lbl.br { top: 24px; left: 14px; }
 .stn.cur .lbl b, .stn:hover .lbl b { color: var(--accent); }
 
 /* stepper under the map */
@@ -273,7 +279,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
   .lbl b { font-size: 9.5px; letter-spacing: 0.04em; }
   .lbl i { display: none; }
   .lbl.r { left: 19px; }
-  .lbl.b, .lbl.lb { top: 16px; }
+  .lbl.b, .lbl.lb, .lbl.br { top: 16px; }
   .jhead { padding: 8px 10px 8px 12px; }
   .jstep { padding: 13px 2px 10px; }
   .jstep b { font-size: 11.5px; letter-spacing: 0; }
@@ -1641,8 +1647,6 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
     el('path', { d: d, 'class': 'icon' }, g);
     LMK.push({ c: c, g: g });
   }
-  iconG(0, 'Graduation, Mansoura', 'M0,-8 L14,-14 L28,-8 L14,-2 Z M6,-5.5 V1 Q14,5 22,1 V-5.5 M28,-8 V0', 168, 70, 1.1);
-  iconG(1, 'Giza Pyramids, Cairo', 'M-4,0 H54 M0,0 L17,-17 L34,0 M17,-17 L20,0 M26,0 L38,-11 L50,0', 100, 150, 1);
   /* real landmarks, drawn in local units with the base at y = 0 */
   function landmark(name, x, y, sc, body, acc, extra, c) {
     var g = el('g', { 'class': 'lmk', transform: 'translate(' + x + ' ' + y + ') scale(' + sc + ')' });
@@ -1654,18 +1658,37 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
     return g;
   }
   function drawLandmarks() {
+    /* Mansoura: graduation cap */
+    landmark('Graduation, Mansoura', 142, 64, 1.35,
+      'M8,-6 V4 Q18,10.5 28,4 V-6 Z',
+      function (g) {
+        el('path', { d: 'M0,-9 L18,-18 L36,-9 L18,0 Z', 'class': 'lm-b' }, g);
+        el('path', { d: 'M18,-18 V0 M8,-5 L18,0 L28,-5', 'class': 'lm-l' }, g);
+        el('path', { d: 'M36,-9 V4', 'class': 'lm-t' }, g);
+        el('path', { d: 'M34.5,4 H37.5 L38,9 H34 Z', 'class': 'lm-b' }, g);
+      }, null, 0);
+    /* Cairo: the three Giza pyramids */
+    landmark('Giza Pyramids, Cairo', 76, 158, 1.3,
+      'M34,0 L49,-17 L64,0 Z M62,0 L72,-9 L82,0 Z',
+      function (g) {
+        el('path', { d: 'M49,-17 L64,0 L54,0 Z M72,-9 L82,0 L76,0 Z', 'class': 'lm-sh' }, g);
+        el('path', { d: 'M0,0 L21,-23 L42,0 Z', 'class': 'lm-b' }, g);
+        el('path', { d: 'M21,-23 L42,0 L28,0 Z', 'class': 'lm-sh' }, g);
+        el('path', { d: 'M21,-23 L28,0', 'class': 'lm-l' }, g);
+        el('path', { d: 'M-5,0 H88', 'class': 'lm-gr' }, g);
+      }, null, 1);
     /* Riyadh: Kingdom Centre */
-    landmark('Kingdom Centre, Riyadh', 704, 318, 1.5,
-      'M-11,0 V-34 C-11,-52 -9.5,-64 -7.5,-74 L-4.6,-74 C-4.6,-62 -3.6,-52 0,-50 C3.6,-52 4.6,-62 4.6,-74 L7.5,-74 C9.5,-64 11,-52 11,-34 V0 Z',
-      function (g) { el('path', { d: 'M-5,-70 H5', 'class': 'lm-a' }, g); },
-      'M0,-50 V0 M-11,-12 H11 M-11,-24 H11', 2);
-    el('path', { d: 'M682,318 H726', 'class': 'lm-gr' });
+    landmark('Kingdom Centre, Riyadh', 708, 320, 1.72,
+      'M-17,0 V-5 H-11 V-34 C-11,-52 -9.5,-64 -7.5,-74 L-4.6,-74 C-4.6,-62 -3.6,-52 0,-50 C3.6,-52 4.6,-62 4.6,-74 L7.5,-74 C9.5,-64 11,-52 11,-34 V-5 H17 V0 Z',
+      function (g) { el('path', { d: 'M-5.2,-68 H5.2', 'class': 'lm-a' }, g); },
+      'M0,-50 V-5 M-11,-14 H11 M-11,-24 H11 M-11,-34 H11', 2);
+    el('path', { d: 'M674,320 H744', 'class': 'lm-gr' });
     /* Dubai: Burj Khalifa */
-    landmark('Burj Khalifa, Dubai', 969, 302, 1.35,
-      'M-9,0 V-24 H-7 V-44 H-5 V-60 H-3.2 V-74 H-1.6 V-86 H-0.6 L0,-110 L0.6,-90 H1.4 V-80 H2.8 V-66 H4.2 V-50 H6 V-32 H8 V-14 H9 V0 Z',
-      function (g) { el('path', { d: 'M0,-110 V-100', 'class': 'lm-a' }, g); },
-      'M0,-86 V0', 3);
-    el('path', { d: 'M953,302 H985', 'class': 'lm-gr' });
+    landmark('Burj Khalifa, Dubai', 972, 304, 1.62,
+      'M-15,0 V-4 H-10 V-18 H-8 V-34 H-6.5 V-48 H-5 V-62 H-3.6 V-74 H-2.4 V-84 H-1.2 V-92 L-0.5,-97 L0,-112 L0.5,-97 L1.2,-92 V-84 H2.4 V-74 H3.6 V-62 H5 V-48 H6.5 V-34 H8 V-18 H10 V-4 H15 V0 Z',
+      function (g) { el('path', { d: 'M0,-112 V-100', 'class': 'lm-a' }, g); },
+      'M0,-92 V-4 M-8,-26 H8 M-5,-55 H5', 3);
+    el('path', { d: 'M944,304 H1000', 'class': 'lm-gr' });
   }
 
   var nb = el('g', { 'class': 'minor-g', transform: 'translate(990 72)' });
@@ -1681,7 +1704,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
   /* map stops (cities) and the career steps that sit on them */
   var C = [
     { city: 'Mansoura', country: 'Egypt', k: 'EGY', lon: 31.38, lat: 31.04, dlon: 31.95, dlat: 31.32, yr: '2022', side: 'r' },
-    { city: 'Cairo', country: 'Egypt', k: 'EGY', lon: 31.24, lat: 30.04, yr: '2023', side: 'b' },
+    { city: 'Cairo', country: 'Egypt', k: 'EGY', lon: 31.24, lat: 30.04, yr: '2023', side: 'br' },
     { city: 'Riyadh', country: 'Saudi Arabia', k: 'KSA', lon: 46.68, lat: 24.71, yr: '2024', side: 'b' },
     { city: 'Dubai', country: 'UAE', k: 'UAE', lon: 55.27, lat: 25.20, yr: '2026', side: 'lb' }
   ];
