@@ -239,6 +239,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
 .lbl.r { left: 24px; top: 50%; transform: translateY(-50%); }
 .lbl.b { top: 24px; left: 50%; transform: translateX(-50%); align-items: center; }
 .lbl.lb { top: 24px; right: 2px; align-items: flex-end; }
+.lbl.l { right: 24px; top: 50%; transform: translateY(-50%); align-items: flex-end; text-align: right; }
 .lbl.br { top: 24px; left: 14px; }
 .stn.cur .lbl b, .stn:hover .lbl b { color: var(--accent); }
 
@@ -279,6 +280,7 @@ h1 { font: 700 clamp(52px, 7vw, 92px)/0.9 var(--font-display); letter-spacing: 0
   .lbl b { font-size: 9.5px; letter-spacing: 0.04em; }
   .lbl i { display: none; }
   .lbl.r { left: 19px; }
+  .lbl.l { right: 19px; }
   .lbl.b, .lbl.lb, .lbl.br { top: 16px; }
   .jhead { padding: 8px 10px 8px 12px; }
   .jstep { padding: 13px 2px 10px; }
@@ -1640,7 +1642,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
   label('SUDAN', 30.0, 21.0, 'lm');
   label('OMAN', 57.0, 22.2, 'lm');
 
-  var LMK = [];
+  var LMK = [], CAPG = null;
   function iconG(c, name, d, x, y, sc) {
     var g = el('g', { 'class': 'lmk', transform: 'translate(' + x + ' ' + y + ') scale(' + sc + ')' });
     el('title', {}, g).textContent = name;
@@ -1659,7 +1661,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
   }
   function drawLandmarks() {
     /* Mansoura: graduation cap */
-    landmark('Graduation, Mansoura', 142, 64, 1.35,
+    CAPG = landmark('Graduation, Mansoura', 142, 64, 1.35,
       'M8,-6 V4 Q18,10.5 28,4 V-6 Z',
       function (g) {
         el('path', { d: 'M0,-9 L18,-18 L36,-9 L18,0 Z', 'class': 'lm-b' }, g);
@@ -1703,7 +1705,7 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
 
   /* map stops (cities) and the career steps that sit on them */
   var C = [
-    { city: 'Mansoura', country: 'Egypt', k: 'EGY', lon: 31.38, lat: 31.04, dlon: 31.95, dlat: 31.32, yr: '2022', side: 'r' },
+    { city: 'Mansoura', country: 'Egypt', k: 'EGY', lon: 31.38, lat: 31.04, dlon: 31.95, dlat: 31.32, yr: '2022', side: 'l' },
     { city: 'Cairo', country: 'Egypt', k: 'EGY', lon: 31.24, lat: 30.04, yr: '2023', side: 'br' },
     { city: 'Riyadh', country: 'Saudi Arabia', k: 'KSA', lon: 46.68, lat: 24.71, yr: '2024', side: 'b' },
     { city: 'Dubai', country: 'UAE', k: 'UAE', lon: 55.27, lat: 25.20, yr: '2026', side: 'lb' }
@@ -1757,6 +1759,16 @@ footer { padding-block: 0 clamp(32px, 5vw, 56px); }
     box.appendChild(b);
     return b;
   });
+  /* Mansoura sits near the left edge: label on the left when it fits, otherwise on the right with the cap moved over */
+  function placeMansoura() {
+    var lbl = btns[0].querySelector('.lbl'), mp = document.querySelector('.mapart');
+    if (!lbl || !mp || !CAPG) return;
+    lbl.className = 'lbl l';
+    var fits = lbl.getBoundingClientRect().left >= mp.getBoundingClientRect().left + 4;
+    if (!fits) lbl.className = 'lbl r';
+    CAPG.setAttribute('transform', fits ? 'translate(226 89) scale(1.35)' : 'translate(142 64) scale(1.35)');
+  }
+  placeMansoura(); window.addEventListener('resize', placeMansoura);
   var stepBox = document.getElementById('jsteps'), fill = document.getElementById('jfill');
   var steps = S.map(function (s, i) {
     var b = document.createElement('button');
